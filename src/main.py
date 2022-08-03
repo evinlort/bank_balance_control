@@ -1,6 +1,9 @@
-import psycopg2
+from src.db_connect import DBConnect
+from src.models.user import User
 
-conn = psycopg2.connect("dbname=bank_balance_control user=evg")
-cur = conn.cursor()
-cur.execute("SELECT * FROM users;")
-print(cur.fetchone())
+
+if __name__ == "__main__":
+    db = DBConnect()
+    db.cursor.execute("select * from languages")
+    user = User(db)
+    print(user.fetch_by_username("evinlorth"))

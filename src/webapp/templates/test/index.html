@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block page_body %}
+    <h1>Testing HTML and JavaScript</h1>
+<span>{{ params.lname }}</span>
+{% endblock %}
+
+{% block javascript %}
+    {% include  "test/test.js" %}
+{% endblock %}
