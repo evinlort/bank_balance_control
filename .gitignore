@@ -127,3 +127,19 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+/.idea/.gitignore
+/flask_session/3f19158127a83407fd1b6ff4afda8ec7
+/flask_session/6a140ce6f8e2476bf0b2f26cf55d1627
+/flask_session/928db7b0e6f9be9823656b6631f04131
+/flask_session/5865f29b1330d29ccdb6b4b6ccbc9ff7
+/flask_session/438905dc14541adbcaf06ef3f2b8cc8c
+/flask_session/2029240f6d1128be89ddc32729463129
+/.idea/bank_balance_control.iml
+/flask_session/c797316ddb06b9aa9fa750abb8e32203
+/flask_session/d2ec47ec4d867dfe3ee35d4e637ec82e
+/flask_session/ee151f0f44101a246199bffb37fce72c
+/flask_session/fd9f5736ed389c00f5776c88273e6e66
+/.idea/misc.xml
+/.idea/modules.xml
+/.idea/inspectionProfiles/profiles_settings.xml
+/.idea/vcs.xml
