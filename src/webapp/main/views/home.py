@@ -15,10 +15,15 @@ from src.config import logger
 def home_page():
     user = current_user
     current_date = datetime.datetime.now()
+    year = current_date.strftime("%Y")
     month_number = current_date.strftime("%m")
     month_name = current_date.strftime("%B")
 
-    balance = Balance().get_by_month(month=month_number)
+    balances = Balance().get_by_month_year(month=month_number, year=year)
+    balance = {
+        "defined": sum([balance["defined"] for balance in balances]),
+        "current": sum([balance["current"] for balance in balances])
+    }
     params = {
         "rand": random.randrange(1111, 9999),
         "user": user,
