@@ -1,1 +1,1 @@
-log = (to_log) => console.log(to_log)
+log = (to_log) => console.log(to_log);

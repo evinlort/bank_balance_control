@@ -19,11 +19,11 @@
                 <div class="col-5 col_name">
                     Sum
                 </div>
-                <div class="col-5">
-                    <input type="text" class="form-control" placeholder="0.00">
+                <div class="col-5" id="sum-div">
+                    <input type="number" class="form-control" placeholder="0.00" id="sum">
                 </div>
                 <div class="col-2 text-start">
-                    <span id="currency_sign">$</span>
+                    <span id="currency_sign" data-bs-toggle="modal" data-bs-target="#change-sum-currency">$</span>
                 </div>
             </div>
             <div class="row my-1">
@@ -31,9 +31,17 @@
                     Category
                 </div>
                 <div class="col-5">
-                    <input class="form-control" list="categories-datalist" id="category" placeholder="Type to search..." autocomplete="true">
+                    <input class="form-control" list="categories-datalist" id="category_name" placeholder="Type to search..." autocomplete="true" aria-describedby="category-balance-text">
+                    <div id="category-balance-text" class="form-text d-none">
+                        <div class="row">
+                            <div class="col-2"></div>
+                            <div class="col-2"></div>
+                            <div class="col-8 text-end"><span id="category-balance">1234.56</span> <span id="default_currency_sign">$</span></div>
+                        </div>
+                    </div>
+                    <input type="hidden" id="category_id">
                     <datalist id="categories-datalist">
-                        <option value="Minks" data-category-id="ZV">
+                        <option value="Minks" data-category-id="123">
                         <option value="New York">
                         <option value="Seattle">
                         <option value="Los Angeles">
@@ -41,7 +49,7 @@
                     </datalist>
                 </div>
                 <div class="col-2 text-start">
-                    <i class="align-bottom fa-solid fa-circle-plus"></i>
+                    <i class="align-bottom fa-solid fa-circle-plus" id="add_new_category"></i>
                 </div>
             </div>
             <div class="row my-1">
@@ -49,11 +57,10 @@
                     Means of payment
                 </div>
                 <div class="col-5">
-                    <select class="form-select" aria-label="Default select example">
-                        <option selected>Open this select menu</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
+                    <select class="form-select" id="means_of_payment">
+                        <option value="1" data-payments-enabled="1">Credit Card</option>
+                        <option value="2" data-payments-enabled="0">Cash</option>
+                        <option value="3" data-payments-enabled="0">Jedi force</option>
                     </select>
                 </div>
                 <div class="col-2 text-start">
@@ -64,9 +71,9 @@
                     Payments
                 </div>
                 <div class="col-5">
-                    <div class="input-group">
+                    <div class="input-group" id="payments-div">
                         <span class="input-group-text" id="payments_add">+</span>
-                        <input type="text" class="form-control text-center" value="1">
+                        <input type="text" class="form-control text-center" value="1" id="payments_count">
                         <span class="input-group-text" id="payments_subtract">-</span>
                     </div>
                 </div>
@@ -111,6 +118,9 @@
 
 
 <br/>
+
+{% include "home/modals/change_sum_currency.html" %}
+
 {% endblock %}
 
 {% block javascript %}

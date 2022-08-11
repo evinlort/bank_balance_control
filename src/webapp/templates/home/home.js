@@ -7,15 +7,76 @@ $("#datepicker").datepicker({
     altFormat: "yy-mm-dd"
 })
 
-$("#category").on('input', function (){
-    var selectedValue = $(this).val();
+$("#category_name").on('input', function (){
+    var cat_id_input = $("#category_id")
+    var selectedValue = $(this).val()
+    var balance = $("#category-balance-text")
     var options = $('#categories-datalist>option')
 
-    for (const [key, value] of Object.entries(options)) {
+    if (selectedValue == "") {
+        balance.addClass("d-none")
+        return false
+    }
+
+    cat_id_input.val("")
+
+    options.each((option) => {
+        value = options[option]
         if ($(value).val() == selectedValue) {
-            var category_id = $(options[key]).data("categoryId")
-            break
+            var category_id = $(value).data("categoryId")
+            balance.removeClass("d-none")
+            balance.addClass("d-block")
+            return false
+        }
+        else {
+            balance.addClass("d-none")
+
+        }
+    })
+
+    cat_id_input.val(category_id)
+});
+
+$("#means_of_payment").on("change", (e) => {
+    var payments_div = $("#payments-div")
+    var count = $("#payments_count")
+
+    set_disable = (option) => {
+        if (!$(option).data("paymentsEnabled")) {
+            count.val(1)
+        }
+        for (const element of payments_div.children()) {
+            var elem = $(element)
+            if ($(option).data("paymentsEnabled")) {
+                elem.prop("disabled", false)
+            }
+            else {
+                elem.prop("disabled", true)
+            }
         }
     }
-    log(category_id)
-});
+
+    var option = $(e.target).find("option:selected")
+    set_disable(option)
+})
+
+$(document).on("click", "#payments_add, #payments_subtract", (e) => {
+    var count = $("#payments_count")
+    var id_array = $(e.target).prop("id").split("_")
+    var action = id_array[id_array.length - 1].toLowerCase()
+    if (action == "add") {
+        count.val(parseInt(count.val()) + 1)
+    }
+    else {
+        if (parseInt(count.val()) > 1) {
+            count.val(parseInt(count.val()) - 1)
+        }
+    }
+})
+
+// ---------- Sum currency start ----------
+$("#currency_sign").on("click" , (e) => {
+    var sign = $(e.target)
+
+})
+// ---------- Sum currency end ----------
