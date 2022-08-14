@@ -7,7 +7,7 @@ $("#datepicker").datepicker({
     altFormat: "yy-mm-dd"
 })
 
-$("#category_name").on('input', function (){
+$("#category_name").on('input', () => {
     var cat_id_input = $("#category_id")
     var selectedValue = $(this).val()
     var balance = $("#category-balance-text")
@@ -76,7 +76,7 @@ $(document).on("click", "#payments_add, #payments_subtract", (e) => {
 
 // ---------- Sum currency start ----------
 $("#currency_sign").on("click" , (e) => {
-    var sign = $(e.target)
-
+    var current_sign = $(e.target)
+    log(current_sign)
 })
 // ---------- Sum currency end ----------

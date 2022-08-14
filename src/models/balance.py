@@ -18,4 +18,3 @@ class Balance(BaseModel):
         if fetch is None:
             return []
         return fetch
-        # return self.convert_to_dicts_in_list(fetch)
