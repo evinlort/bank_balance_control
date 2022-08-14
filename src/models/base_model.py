@@ -38,3 +38,18 @@ class BaseModel:
         if fetch is None:
             return []
         return self.convert_to_dicts_in_list(fetch)
+
+    def get_by_id(self, _id: int) -> dict:
+        query = sql.SQL("""
+                SELECT * FROM {}
+                WHERE id = %s;
+        """.format(self.table)
+        )
+
+        params = (_id, )
+        self.logger.info(self.db.cursor.mogrify(query, params))
+        self.db.cursor.execute(query, params)
+        fetch = self.db.cursor.fetchone()
+        if fetch is None:
+            return {}
+        return fetch

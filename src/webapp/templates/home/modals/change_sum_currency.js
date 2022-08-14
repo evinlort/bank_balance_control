@@ -1,6 +1,10 @@
 $('#change-sum-currency').on('shown.bs.modal', function () {
     $.get("/api/currencies", (data, textStatus, jqXHR) => {
         var datalist = $("#currencies-datalist")
+        var curr_name = $("#currency_name")
+        datalist.html("")
+        curr_name.focus()
+        curr_name.val("")
         for (item of data) {
            var option = "<option value='" + item.code + "' data-currency-id='" + item.id + "'></option>"
            datalist.append(option)
@@ -26,7 +30,14 @@ $("#currency_name").on("input", (e) => {
 
 $("#change-sum-currency-button").on("click", () => {
     var selected_currency_id = $("#currency_id").val()
+    var curr_sign = $("#currency_sign")
     $.get("/api/currency/" + selected_currency_id + "/sign", data => {
-        log(data)
+        if (curr_sign.text() != data.sign)
+            curr_sign.text(data.sign)
+        $('#change-sum-currency').modal("hide")
+        var datalist = $("#currencies-datalist")
+        var curr_name = $("#currency_name")
+        datalist.html("")
+        curr_name.val("")
     }, "json")
 })

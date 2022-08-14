@@ -73,10 +73,3 @@ $(document).on("click", "#payments_add, #payments_subtract", (e) => {
         }
     }
 })
-
-// ---------- Sum currency start ----------
-$("#currency_sign").on("click" , (e) => {
-    var current_sign = $(e.target)
-    log(current_sign)
-})
-// ---------- Sum currency end ----------

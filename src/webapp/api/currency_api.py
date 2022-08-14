@@ -16,8 +16,7 @@ def get_all_currencies():
 
 
 @api.route('/currency/<_id>/sign', methods=["GET"])
-def get_all_currencies(_id):
+def get_currency(_id):
     curr = Currency(db)
     currency = curr.get_by_id(_id)
-    print(currency)
-    return jsonify(sign)
+    return jsonify({"sign": currency["sign"]})
