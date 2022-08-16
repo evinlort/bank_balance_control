@@ -49,7 +49,7 @@
                     </datalist>
                 </div>
                 <div class="col-2 text-start">
-                    <i class="align-bottom fa-solid fa-circle-plus" id="add_new_category" data-bs-toggle="modal" data-bs-target="#add-new-category"></i>
+                    <i class="align-bottom fa-solid fa-circle-plus" id="add_new_category"></i>
                 </div>
             </div>
             <div class="row my-1">
@@ -121,6 +121,7 @@
 
 {% include "home/modals/currency/modal_change_sum_currency.html" %}
 {% include "home/modals/category/modal_new_category.html" %}
+{% include "home/modals/category/modal_edit_category.html" %}
 
 {% endblock %}
 
@@ -128,6 +129,7 @@
 {% include  "home/home.js" %}
 {% include  "home/modals/currency/change_sum_currency.js" %}
 {% include  "home/modals/category/new_category.js" %}
+{% include  "home/modals/category/edit_category.js" %}
 {% include  "home/choose_category.js" %}
-{% include  "home/add_new_category.js" %}
+{% include  "home/category_actions.js" %}
 {% endblock %}
