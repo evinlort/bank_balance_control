@@ -7,7 +7,7 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-3">
+                    <div class="col-4">
                         <select class="form-control">
                             <option>ENG</option>
                             <option selected="selected">HEB</option>
@@ -18,7 +18,10 @@
                         <input class="form-control" id="edit_category_name" placeholder="Edit category name" autocomplete="false">
                     </div>
                 </div>
-
+                <div class="row mt-2">
+                    <div class="col-4"><button type="button" id="show_add_subcat" class="form-control btn btn-dark" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Append sub category for the given category">Add subcategory</button></div>
+                    <div class="col"><input type="text" class="form-control form-control-lg d-none" id="subcat_name"></div>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
