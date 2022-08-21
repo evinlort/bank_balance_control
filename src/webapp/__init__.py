@@ -11,7 +11,7 @@ login_manager = LoginManager()
 
 
 def create_app(config_filename):
-    os.environ['FLASK_DEBUG'] = "1"
+    os.environ['FLASK_DEBUG'] = os.getenv("DEVELOPMENT")
     app = Flask(__name__)
     app.config.from_mapping(
         SECRET_KEY='Once there is a way to get back homeward',
