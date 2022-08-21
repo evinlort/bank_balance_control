@@ -15,9 +15,3 @@ def get_all_by_username(username):
     print(user_data)
     params = {"params": user_data}
     return render_template('test/index.html', **params)
-
-
-@api.route('/', defaults={'u_path': ''})
-@api.route('/<path:u_path>', methods=["GET"])
-def get_all_pages_after(u_path):
-    return "Nice try, dickhead."
