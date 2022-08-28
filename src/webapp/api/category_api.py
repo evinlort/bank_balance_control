@@ -1,4 +1,4 @@
-from flask import jsonify
+from flask import jsonify, request
 
 from . import api
 
@@ -14,8 +14,10 @@ def get_all_categories():
     return jsonify(categories)
 
 
-@api.route('/currency/<_id>', methods=["GET"])
-def get_category(_id):
+@api.route('/category', methods=["POST"])
+def add_category():
+    new_cat_name = request.form.get("category_name")
+    language_id = request.form.get("language_id")
     cat = Category(db)
-    category = cat.get_by_id(_id)
-    return jsonify(category)
+    # category = cat.get_by_id()
+    return jsonify(True)  # {"LANG": language_id, "NAME": new_cat_name})

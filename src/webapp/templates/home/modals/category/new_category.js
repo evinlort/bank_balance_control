@@ -1,3 +1,4 @@
+
 $("#modal_add_new_category").on("shown.bs.modal", () => {
     $("#add_category_name").focus()
 })
@@ -27,9 +28,8 @@ $("#modal_add_new_category_button").on("click", e => {
 
     $.post("/api/category", data, response => {
         if (response === true) {
-            var modal = document.getElementById('modal_add_new_category')
-            modal.hide()
-            return true
+
+            add_cat_modal.hide()
         }
         else {
             toast_danger("Please, provide category name!", "No category")
