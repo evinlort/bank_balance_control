@@ -1,7 +1,7 @@
 $("#add_new_category").on("click", (e) => {
 //    var category_name = $("#category_name")
 //    if (category_name.val() == "") {
-        var new_cat = new bootstrap.Modal(document.getElementById('add-new-category'), {
+        var new_cat = new bootstrap.Modal(document.getElementById('modal_add_new_category'), {
             keyboard: true
         })
         new_cat.toggle()
