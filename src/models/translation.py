@@ -1,5 +1,6 @@
 from psycopg2 import sql
 
+
 from src.models.base_model import BaseModel
 
 
@@ -22,3 +23,14 @@ class Translation(BaseModel):
         if fetch is None:
             return {}
         return fetch
+
+    def save(self, row):
+        row["translation"] = row["name"]
+        query = sql.SQL("INSERT INTO {} (language_id, name_id, translation) VALUES "
+                        "(%(language_id)s, %(name_id)s, %(translation)s)".format(self.table))
+        try:
+            self.db.cursor.mogrify(query, row)
+            self.db.cursor.execute(query, row)
+            self.db.connection.commit()
+        except Exception as e:
+            self.db.connection.rollback()
