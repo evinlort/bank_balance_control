@@ -62,6 +62,10 @@ $("#means_of_payment").on("change", (e) => {
 
 $(document).on("click", "#payments_add, #payments_subtract", (e) => {
     var count = $("#payments_count")
+    if(isNaN(count.val())) {
+        count.val(1)
+        return false
+    }
     var id_array = $(e.target).prop("id").split("_")
     var action = id_array[id_array.length - 1].toLowerCase()
     if (action == "add") {
