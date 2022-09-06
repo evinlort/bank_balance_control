@@ -72,6 +72,16 @@ $(document).on("click", "#payments_add, #payments_subtract", (e) => {
     }
 })
 
+$("#sum").on("keyup", (e) => {
+    var sum = $("#sum")
+    if (isNaN(e.target.value)) {
+        sum.val(sum.val().slice(0, -1))
+    }
+    else {
+        if (sum.val().search(/\./) > 0 && sum.val().split(".")[1].length > 2) sum.val(sum.val().slice(0, -1))
+    }
+})
+
 disable_children_elements($("#payments-div"))
 let option = $("#means_of_payment").find("option:selected")
 let count = $("#payments_count")
