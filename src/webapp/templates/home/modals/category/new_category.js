@@ -28,7 +28,6 @@ $("#modal_add_new_category_button").on("click", e => {
 
     $.post("/api/category", data, response => {
         if (response === true) {
-
             add_cat_modal.hide()
         }
         else {
