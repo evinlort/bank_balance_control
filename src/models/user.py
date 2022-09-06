@@ -41,8 +41,8 @@ class User(UserMixin, BaseModel):
 
     def get_by_id_for_login(self, user_id):
         query = sql.SQL(f"""
-                    SELECT * from users where id = '{user_id}'
-                """)
+            SELECT * from users where id = '{user_id}'
+        """)
         self.db.cursor.execute(query)
         fetch = self.db.cursor.fetchone()
         if not fetch:
