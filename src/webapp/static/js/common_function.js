@@ -16,3 +16,17 @@ toast = (message, style, title) => {
 toast_success = (message, title) => toast(message, "success", title)
 toast_warning = (message, title) => toast(message, "warning", title)
 toast_danger = (message, title) => toast(message, "danger", title)
+
+disable_children_elements = (parent_element) => {
+        for (const element of parent_element.children()) {
+            var elem = $(element)
+            elem.prop("disabled", true)
+        }
+    }
+
+enable_children_elements = (parent_element) => {
+    for (const element of parent_element.children()) {
+        var elem = $(element)
+        elem.prop("disabled", false)
+    }
+}

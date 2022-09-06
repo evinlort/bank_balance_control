@@ -40,24 +40,18 @@ $("#category_name").on('input', () => {
 $("#means_of_payment").on("change", (e) => {
     var payments_div = $("#payments-div")
     var count = $("#payments_count")
-
-    set_disable = (option) => {
-        if (!$(option).data("paymentsEnabled")) {
-            count.val(1)
-        }
-        for (const element of payments_div.children()) {
-            var elem = $(element)
-            if ($(option).data("paymentsEnabled")) {
-                elem.prop("disabled", false)
-            }
-            else {
-                elem.prop("disabled", true)
-            }
-        }
-    }
+    count.val(1)
 
     var option = $(e.target).find("option:selected")
-    set_disable(option)
+    if ($(option).data("paymentsEnabled")) {
+            enable_children_elements(payments_div)
+        }
+        else {
+            disable_children_elements(payments_div)
+        }
+    if (option.val() == "") {
+        count.val("")
+    }
 })
 
 $(document).on("click", "#payments_add, #payments_subtract", (e) => {
@@ -77,3 +71,10 @@ $(document).on("click", "#payments_add, #payments_subtract", (e) => {
         }
     }
 })
+
+disable_children_elements($("#payments-div"))
+let option = $("#means_of_payment").find("option:selected")
+let count = $("#payments_count")
+if (option.val() == "") {
+    count.val("")
+}
