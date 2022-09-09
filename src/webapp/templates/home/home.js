@@ -7,9 +7,9 @@ $("#datepicker").datepicker({
     altFormat: "yy-mm-dd"
 })
 
-$("#category_name").on('input', () => {
+$("#category_name").on('input', (e) => {
     var cat_id_input = $("#category_id")
-    var selectedValue = $(this).val()
+    var selectedValue = $(e.target).val()
     var balance = $("#category-balance-text")
     var options = $('#categories-datalist>option')
 
@@ -19,14 +19,15 @@ $("#category_name").on('input', () => {
     }
 
     cat_id_input.val("")
+    var category_id = 0
 
     options.each((option) => {
-        value = options[option]
+        let value = options[option]
         if ($(value).val() == selectedValue) {
-            var category_id = $(value).data("categoryId")
+            category_id = $(value).data("categoryId")
             balance.removeClass("d-none")
             balance.addClass("d-block")
-            return false
+            return
         }
         else {
             balance.addClass("d-none")
@@ -87,6 +88,14 @@ $("#sum").on("keyup", (e) => {
     }
     else {
         if (sum.val().search(/\./) > 0 && sum.val().split(".")[1].length > 2) sum.val(sum.val().slice(0, -1))
+    }
+})
+
+$("#confirm_payment").on("click", (e) => {
+    var purchase_data = {
+        "sum": $("#sum").val(),
+        "catagory": $("#category_id").val(),
+
     }
 })
 
