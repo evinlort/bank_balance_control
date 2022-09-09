@@ -4,8 +4,9 @@ $("#datepicker").datepicker({
     minDate: -20,
     maxDate: "+0D",
     altField: "#date",
-    altFormat: "yy-mm-dd"
-})
+    altFormat: "yy-mm-dd",
+    dateFormat: "dd/mm/yy"
+}).datepicker('setDate', '+0d')
 
 $("#category_name").on('input', (e) => {
     var cat_id_input = $("#category_id")
