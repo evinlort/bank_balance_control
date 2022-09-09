@@ -92,13 +92,29 @@ $("#sum").on("keyup", (e) => {
     }
 })
 
+
 $("#confirm_payment").on("click", (e) => {
     var purchase_data = {
         "sum": $("#sum").val(),
-        "catagory": $("#category_id").val(),
-
+        "category": $("#category_id").val(),
+        "means_of_payment": $("#means_of_payment>option:selected").val(),
+        "payments_count": $("#payments_count").val(),
+        "purchase_date": $("#date").val(),
+        "comment": $("#comment").val()
+    }
+    if (is_not_empty(purchase_data)) {
+        $.post("api/purchase", data, response => {
+            log("sent")
+        })
     }
 })
+
+is_not_empty = data => {
+    for (key in data) {
+        if (data[key] == "") return false
+    }
+    return true
+}
 
 disable_children_elements($("#payments-div"))
 let option = $("#means_of_payment").find("option:selected")
