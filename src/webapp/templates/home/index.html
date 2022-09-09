@@ -4,10 +4,10 @@
 <div>
     <span>{{ params.user.lname }}</span>
 </div>
-<h1>
-    <div>Current balance for {{ params.current_month_name }}:</div>
-    <div>{{ params.balance.current }} from {{ params.balance.defined }}</div>
-</h1>
+<div>
+    <div class="h1">Current balance for {{ params.current_month_name }}:</div>
+    <div class="h1">{{ params.balance.current }} from {{ params.balance.defined }}</div>
+</div>
 
 <br/>
 
@@ -40,11 +40,11 @@
                     </div>
                     <input type="hidden" id="category_id">
                     <datalist id="categories-datalist">
-                        <option value="Minks" data-category-id="123">
+<!--                        <option value="Minks" data-category-id="123">
                         <option value="New York">
                         <option value="Seattle">
                         <option value="Los Angeles">
-                        <option value="Chicago">
+                        <option value="Chicago">-->
                     </datalist>
                 </div>
                 <div class="col-2 text-start">
@@ -58,9 +58,9 @@
                 <div class="col-5">
                     <select class="form-select" id="means_of_payment">
                         <option selected="selected" class="small mark" value="">Select mean of payment</option>
-                        <option value="1" data-payments-enabled="1">Credit Card</option>
-                        <option value="2" data-payments-enabled="0">Cash</option>
-                        <option value="3" data-payments-enabled="0">Jedi force</option>
+<!--                        <option value="1" data-payments-enabled="1">Credit Card</option>-->
+<!--                        <option value="2" data-payments-enabled="0">Cash</option>-->
+<!--                        <option value="3" data-payments-enabled="0">Jedi force</option>-->
                     </select>
                 </div>
                 <div class="col-2 text-start">
