@@ -8,5 +8,6 @@ from .translation import Translation
 from .name import Name
 from .balance import Balance
 from .family import Family
+from .means_of_payment import MeansOfPayment
 
 
