@@ -12,9 +12,9 @@ from src.models import (
 
 
 @api.route('/categories', methods=["GET"])
-def get_all_categories():
+def get_all_family_categories():
     cat = Category(db)
-    categories = cat.get_all_categories()
+    categories = cat.get_all_family_categories(family_id=current_user.family_id)
     return jsonify(categories)
 
 

@@ -53,3 +53,24 @@ class BaseModel:
         if fetch is None:
             return {}
         return fetch
+
+    def get_by_column(self, column_name, column_value):
+        query = sql.SQL("""
+                SELECT * FROM {}
+                WHERE {} = %s;
+        """.format(self.table, column_name)
+        )
+
+        params = (column_value, )
+        self.logger.info(self.db.cursor.mogrify(query, params))
+        self.db.cursor.execute(query, params)
+        fetch = self.db.cursor.fetchall()
+        if fetch is None:
+            return []
+        return self.convert(fetch)
+
+    @staticmethod
+    def convert(fetch):
+        if isinstance(fetch, list):
+            return [dict(entry) for entry in fetch]
+        return dict(fetch)

@@ -11,16 +11,9 @@ class Category(BaseModel):
     def get_table():
         return "categories"
 
-    def get_all_categories(self, language=1) -> list:
-        categories = self.get_all()
+    def get_all_family_categories(self, family_id) -> list:
+        categories = self.get_by_column("family_id", family_id)
         self.logger.info(categories)
-        translation_model = Translation(self.db)
-        for category in categories:
-            self.logger.info(category["name_id"])
-            translation = translation_model.get_by_name_id_and_language(
-                name_id=category["name_id"], language_id=language
-            )
-            category["name"] = translation["translation"]
         return categories
 
     def save(self, row):
