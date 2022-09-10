@@ -95,17 +95,17 @@ $("#sum").on("keyup", (e) => {
 
 $("#confirm_payment").on("click", (e) => {
     var purchase_data = {
-        "sum": $("#sum").val(),
-        "category": $("#category_id").val(),
-        "means_of_payment": $("#means_of_payment>option:selected").val(),
-        "payments_count": $("#payments_count").val(),
-        "purchase_date": $("#date").val(),
-        "comment": $("#comment").val()
+        sum: $("#sum").val(),
+        category: $("#category_id").val(),
+        means_of_payment: $("#means_of_payment>option:selected").val(),
+        payments_count: $("#payments_count").val(),
+        purchase_date: $("#date").val(),
+        comment: $("#comment").val()
     }
     if (is_not_empty(purchase_data)) {
         $.post("api/purchase", purchase_data, response => {
             log("sent")
-        })
+        }, "json")
     }
 })
 

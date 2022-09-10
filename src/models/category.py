@@ -13,7 +13,6 @@ class Category(BaseModel):
 
     def get_all_family_categories(self, family_id) -> list:
         categories = self.get_by_column("family_id", family_id)
-        self.logger.info(categories)
         return categories
 
     def save(self, row):
