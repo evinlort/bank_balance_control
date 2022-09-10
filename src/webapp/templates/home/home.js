@@ -103,7 +103,7 @@ $("#confirm_payment").on("click", (e) => {
         "comment": $("#comment").val()
     }
     if (is_not_empty(purchase_data)) {
-        $.post("api/purchase", data, response => {
+        $.post("api/purchase", purchase_data, response => {
             log("sent")
         })
     }
