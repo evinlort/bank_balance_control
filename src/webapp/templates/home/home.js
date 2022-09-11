@@ -8,7 +8,7 @@ $("#datepicker").datepicker({
     dateFormat: "dd/mm/yy"
 }).datepicker('setDate', '+0d')
 
-$("#category_name").on('input', (e) => {
+$("#category_name").on('input change', (e) => {
     var cat_id_input = $("#category_id")
     var selectedValue = $(e.target).val()
     var balance = $("#category-balance-text")

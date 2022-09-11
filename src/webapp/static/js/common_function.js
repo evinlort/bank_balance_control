@@ -30,3 +30,51 @@ enable_children_elements = (parent_element) => {
         elem.prop("disabled", false)
     }
 }
+
+$.put = (url, data, callback, type) => {
+    if ( $.isFunction(data) ){
+        type = type || callback,
+        callback = data,
+        data = {}
+    }
+
+    return $.ajax({
+        url: url,
+        type: 'PUT',
+        success: callback,
+        data: data,
+        contentType: type
+    });
+}
+
+$.delete = (url, data, callback, type) => {
+    if ( $.isFunction(data) ){
+        type = type || callback,
+        callback = data,
+        data = {}
+    }
+
+    return $.ajax({
+        url: url,
+        type: 'DELETE',
+        success: callback,
+        data: data,
+        contentType: type
+    })
+}
+
+$.patch = (url, data, callback, type) => {
+    if ( $.isFunction(data) ){
+        type = type || callback,
+        callback = data,
+        data = {}
+    }
+
+    return $.ajax({
+        url: url,
+        type: 'PATCH',
+        success: callback,
+        data: data,
+        contentType: type
+    })
+}

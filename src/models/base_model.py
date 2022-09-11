@@ -98,6 +98,9 @@ class BaseModel:
             return 0
         return fetch["id"]
 
+    def update(self, _id, data):
+        raise NotImplemented
+
     def get_table_columns(self) -> list:
         query = sql.SQL("SELECT * FROM {}".format(self.table))
         self.db.cursor.execute(query)

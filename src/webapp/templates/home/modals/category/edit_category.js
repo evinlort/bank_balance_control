@@ -3,24 +3,39 @@ $("#edit_existing_category").on('shown.bs.modal', () => {
 })
 
 $("#edit_existing_category").on('hidden.bs.modal', () => {
-    var subcat_name = $("#subcat_name")
-    subcat_name.val("")
-    subcat_name.addClass("d-none")
+    $(this).find('#edit_category_name').val("");
 })
 
-$("#show_add_subcat").on("click", (e) => {
-    var subcat_name = $("#subcat_name")
-    var edit_category_button = $("#edit_category_button")
-    subcat_name.val("")
 
-    if (! subcat_name.is(":visible")) {
-        subcat_name.removeClass("d-none")
-        subcat_name.focus()
-        edit_category_button.text("Add new sub category")
+$("#edit_category_button").on("click", e => {
+    var cat_name_edit = $("#edit_category_name")
+    var id = $("#category_id").val()
+
+    if (cat_name_edit.val() == "") {
+        cat_name_edit.focus()
+        toast_warning("Can't update with empty name! Please fill it")
+        return false
     }
-    else {
-        subcat_name.addClass("d-none")
-        subcat_name.blur()
-        edit_category_button.text("Edit category")
+
+    var data = {"category_name": cat_name_edit.val()}
+    var set_cat_id = () => {
+        var cat_name_edit = $("#edit_category_name")
+        $("#category_id").val(
+            $("#categories-datalist>option").toArray().map(
+                e=>$(e)
+            ).filter(
+                e=>e.val()==cat_name_edit.val()
+            )[0].data("categoryId")
+        )
     }
+    $.patch("/api/category/" + id, data, response => {
+        if (response.updated_id !== 0) {
+            fill_categories(set_cat_id)
+            $("#category_name").val(cat_name_edit.val())
+            edit_cat_modal.hide()
+        }
+        else {
+            toast_danger("Please, provide category name!", "No category")
+        }
+    }, "json")
 })
