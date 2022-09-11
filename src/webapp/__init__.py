@@ -15,7 +15,8 @@ def create_app(config_filename):
     app = Flask(__name__)
     app.config.from_mapping(
         SECRET_KEY='Once there is a way to get back homeward',
-        SESSION_TYPE='filesystem'
+        SESSION_TYPE='filesystem',
+        SECURITY_PASSWORD_SALT="Some other text"
     )
 
     login_manager.init_app(app)

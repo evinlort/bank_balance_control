@@ -21,7 +21,7 @@ def login_user_to_app():
     u = User()
     u.get_user_for_login(username, hash_password)
     if u and hasattr(u, "id"):
-        login_user(u)
+        login_user(u, remember=True, fresh=False)
         return jsonify(True)
     return jsonify(False)
 

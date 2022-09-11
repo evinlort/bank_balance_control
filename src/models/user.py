@@ -43,6 +43,7 @@ class User(UserMixin, BaseModel):
         query = sql.SQL(f"""
             SELECT * from users where id = '{user_id}'
         """)
+        self.logger.info(self.db.cursor.mogrify(query))
         self.db.cursor.execute(query)
         fetch = self.db.cursor.fetchone()
         if not fetch:

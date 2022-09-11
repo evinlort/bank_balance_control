@@ -1,3 +1,4 @@
+import time
 from typing import Union, List
 
 from psycopg2 import sql
@@ -30,6 +31,7 @@ class BaseModel:
         self.logger.info(self.db.cursor.mogrify(query))
         self.db.cursor.execute(query)
         fetch = self.db.cursor.fetchall()
+        time.sleep(0.1)
         if fetch is None:
             return []
         return self.convert(fetch)
@@ -44,6 +46,7 @@ class BaseModel:
         params = (_id,)
         self.logger.info(self.db.cursor.mogrify(query, params))
         self.db.cursor.execute(query, params)
+        time.sleep(0.1)
         fetch = self.db.cursor.fetchone()
         if fetch is None:
             return {}
@@ -60,6 +63,7 @@ class BaseModel:
         self.logger.info(self.db.cursor.mogrify(query, params))
         self.db.cursor.execute(query, params)
         fetch = self.db.cursor.fetchall()
+        time.sleep(0.1)
         if fetch is None:
             return []
         return self.convert(fetch)
