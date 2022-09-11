@@ -1,8 +1,8 @@
-$("#edit-category").on('shown.bs.modal', () => {
+$("#edit_existing_category").on('shown.bs.modal', () => {
     $(this).find('#edit_category_name').focus();
 })
 
-$("#edit-category").on('hidden.bs.modal', () => {
+$("#edit_existing_category").on('hidden.bs.modal', () => {
     var subcat_name = $("#subcat_name")
     subcat_name.val("")
     subcat_name.addClass("d-none")
