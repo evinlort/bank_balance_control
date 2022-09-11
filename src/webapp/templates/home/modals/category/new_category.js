@@ -16,7 +16,6 @@ $("#modal_add_new_category").on("show.bs.modal", () => {
 })
 
 $("#modal_add_new_category_button").on("click", e => {
-    var lang_id = $("#new_cat_languages").val()
     var new_cat = $("#add_category_name")
 
     if (new_cat.val() == "") {
@@ -24,10 +23,11 @@ $("#modal_add_new_category_button").on("click", e => {
         return false
     }
 
-    var data = {"category_name": new_cat.val(), "language_id": lang_id}
+    var data = {"category_name": new_cat.val()}
 
     $.post("/api/category", data, response => {
-        if (response === true) {
+        log(response)
+        if (response.new_id !== 0) {
             add_cat_modal.hide()
         }
         else {

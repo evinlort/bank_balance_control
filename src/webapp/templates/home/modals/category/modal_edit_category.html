@@ -1,26 +1,15 @@
-<div class="modal fade" id="edit-category" tabindex="-1" aria-labelledby="edit-category-label" aria-hidden="true">
+<div class="modal fade" id="edit_existing_category" tabindex="-1" aria-labelledby="edit_existing_category-label" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="edit-category-label">Edit category name</h5>
+                <h5 class="modal-title" id="edit_existing_category-label">Edit category name</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-4">
-                        <select class="form-control">
-                            <option>ENG</option>
-                            <option selected="selected">HEB</option>
-                            <option>RUS</option>
-                        </select>
-                    </div>
                     <div class="col">
                         <input class="form-control" id="edit_category_name" placeholder="Edit category name" autocomplete="false">
                     </div>
-                </div>
-                <div class="row mt-2">
-                    <div class="col-4"><button type="button" id="show_add_subcat" class="form-control btn btn-dark" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Append sub category for the given category">Add subcategory</button></div>
-                    <div class="col"><input type="text" class="form-control form-control-lg d-none" id="subcat_name"></div>
                 </div>
             </div>
             <div class="modal-footer">

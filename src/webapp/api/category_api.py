@@ -21,9 +21,7 @@ def get_all_family_categories():
 @api.route('/category', methods=["POST"])
 def add_category():
     new_cat_name = request.form.get("category_name")
-    language_id = request.form.get("language_id")
     cat = Category(db)
-    to_insert = {"name": new_cat_name, "language_id": language_id, "created_by": current_user.id,
-                 "creation_date": datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
+    to_insert = {"name": new_cat_name, "family_id": current_user.family_id}
     new_id = cat.save(to_insert)
     return jsonify({"new_id": new_id})
