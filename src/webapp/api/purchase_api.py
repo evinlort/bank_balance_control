@@ -21,6 +21,7 @@ def new_purchase():
     purchase_data = request.form.to_dict()
     purchase_data["means_of_payment_id"] = purchase_data["means_of_payment"]
     purchase_data["number_of_payments"] = purchase_data["payments_count"]
+    # purchase_data["payment_number"] = 1
     purchase_data["date"] = purchase_data["purchase_date"]
     purchase_data["category_id"] = purchase_data["category"]
     purchase_data["user_id"] = current_user.id
