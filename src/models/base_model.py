@@ -1,6 +1,7 @@
 import time
 from typing import Union, List
 
+import psycopg2.errors
 from psycopg2 import sql
 
 from src.config import logger
@@ -69,34 +70,39 @@ class BaseModel:
         return self.convert(fetch)
 
     def save(self, data_to_save: dict):
-        raw_table_columns = self.get_table_columns()
-        to_insert_columns = []
-        to_save_values = []
-        for col in raw_table_columns:
-            if self.get_type_by_column_name(col) == "timestamp":
-                continue
-            to_insert_columns.append(col)
-            to_save_values.append(str(data_to_save[col] if col in data_to_save else "NULL"))
+        try:
+            raw_table_columns = self.get_table_columns()
+            to_insert_columns = []
+            to_save_values = []
+            for col in raw_table_columns:
+                if self.get_type_by_column_name(col) == "timestamp":
+                    continue
+                to_insert_columns.append(col)
+                to_save_values.append(str(data_to_save[col] if col in data_to_save else "NULL"))
 
-        self.logger.info(to_save_values)
+            self.logger.info(to_save_values)
 
-        query = sql.SQL(
-            "INSERT INTO {} ({}) VALUES ({}) RETURNING id".format(
-                self.table,
-                sql.SQL(', ').join(
-                    [sql.Identifier(col_name) for col_name in to_insert_columns]
-                ).as_string(self.db.cursor),
-                sql.SQL(', ').join(
-                    sql.Placeholder() * len(to_save_values)
-                ).as_string(self.db.cursor)
-            ))
-        self.logger.info(query)
-        self.db.cursor.execute(query, to_save_values)
-        self.db.connection.commit()
-        fetch = self.db.cursor.fetchone()
-        if fetch is None:
-            return 0
-        return fetch["id"]
+            query = sql.SQL(
+                "INSERT INTO {} ({}) VALUES ({}) RETURNING id".format(
+                    self.table,
+                    sql.SQL(', ').join(
+                        [sql.Identifier(col_name) for col_name in to_insert_columns]
+                    ).as_string(self.db.cursor),
+                    sql.SQL(', ').join(
+                        sql.Placeholder() * len(to_save_values)
+                    ).as_string(self.db.cursor)
+                ))
+            self.logger.info(query)
+            self.db.cursor.execute(query, to_save_values)
+            self.db.connection.commit()
+            fetch = self.db.cursor.fetchone()
+            if fetch is None:
+                return 0
+            return fetch["id"]
+        except psycopg2.errors.UniqueViolation as pg_uniq:
+            self.db.connection.rollback()
+            self.logger.error(str(pg_uniq))
+            return -1
 
     def update(self, _id, data):
         raise NotImplemented
