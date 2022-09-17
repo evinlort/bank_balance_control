@@ -104,7 +104,8 @@ $("#confirm_payment").on("click", (e) => {
     }
     if (is_not_empty(purchase_data)) {
         $.post("api/purchase", purchase_data, response => {
-            log("sent")
+            $("#payments_frame").load(location.href + " #payments_frame");
+            fill_categories(fill_means_of_payments())
         }, "json")
     }
 })
@@ -122,3 +123,5 @@ let count = $("#payments_count")
 if (option.val() == "") {
     count.val("")
 }
+
+$("#sum").focus()

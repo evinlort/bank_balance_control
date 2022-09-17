@@ -16,4 +16,4 @@ fill_categories = (callback=()=>{}) => {
     }, "json")
 }
 
-fill_categories()
+fill_categories(fill_means_of_payments())
