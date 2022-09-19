@@ -77,7 +77,12 @@
                         <span class="input-group-text" id="payments_subtract">-</span>
                     </div>
                 </div>
-                <div class="col-2 text-start">
+                <div class="col-2 payments_previews">
+                    <div class="row">
+                        <div class="col"><span id="preview_first_payment"></span></div>
+                        <div class="col">2</div>
+                        <div class="col">3</div>
+                    </div>
                 </div>
             </div>
             <div class="row my-1">
@@ -126,11 +131,15 @@
 {% endblock %}
 
 {% block javascript %}
-{% include  "home/home.js" %}
+
 {% include  "home/modals/currency/change_sum_currency.js" %}
 {% include  "home/modals/category/new_category.js" %}
 {% include  "home/modals/category/edit_category.js" %}
 {% include  "home/choose_means_of_payment.js" %}
 {% include  "home/choose_category.js" %}
 {% include  "home/category_actions.js" %}
+{% include  "home/payments_actions.js" %}
+
+{% include  "home/home.js" %}
+
 {% endblock %}

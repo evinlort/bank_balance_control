@@ -64,24 +64,6 @@ $("#means_of_payment, #payments_count").on("blur", (e) => {
     }
 })
 
-$(document).on("click", "#payments_add, #payments_subtract", (e) => {
-    var count = $("#payments_count")
-    if(isNaN(count.val())) {
-        count.val(1)
-        return false
-    }
-    var id_array = $(e.target).prop("id").split("_")
-    var action = id_array[id_array.length - 1].toLowerCase()
-    if (action == "add") {
-        count.val(parseInt(count.val()) + 1)
-    }
-    else {
-        if (parseInt(count.val()) > 1) {
-            count.val(parseInt(count.val()) - 1)
-        }
-    }
-})
-
 $("#sum").on("keyup", (e) => {
     var sum = $("#sum")
     if (isNaN(e.target.value)) {
@@ -124,4 +106,5 @@ if (option.val() == "") {
     count.val("")
 }
 
+fill_categories(fill_means_of_payments())
 $("#sum").focus()

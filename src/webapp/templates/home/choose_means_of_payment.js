@@ -8,4 +8,3 @@ fill_means_of_payments = (callback=()=>{}) => {
         callback()
     }, "json")
 }
-

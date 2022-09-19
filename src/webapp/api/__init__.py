@@ -7,3 +7,4 @@ from . import category_api  # noqa
 from . import language_api  # noqa
 from . import means_of_payment_api  # noqa
 from . import purchase_api  # noqa
+from . import calculate_api  # noqa
