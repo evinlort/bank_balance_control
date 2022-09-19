@@ -1,4 +1,5 @@
 import datetime
+from decimal import Decimal
 from typing import List
 
 from dateutil.relativedelta import relativedelta
@@ -12,7 +13,7 @@ def calculate_next_month_date(date: str) -> str:
 
 def calculate_monthly_sums(general_sum: float, payments: int) -> List[float]:
     rounded_month_sum = int(general_sum / payments * 100) / 100
-    first_month_sum = general_sum - rounded_month_sum * (payments - 1)
+    first_month_sum = float(Decimal(str(general_sum)) - Decimal(str(rounded_month_sum * (payments - 1))))
     calculated_sums = []
     for i in range(0, payments):
         if i == 0:
