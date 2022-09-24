@@ -42,6 +42,8 @@ $("#category_name").on('input change', (e) => {
 $("#means_of_payment").on("change", (e) => {
     var payments_div = $("#payments-div")
     var count = $("#payments_count")
+    var first_payment = $("#preview_first_payment")
+    var sum = $("#sum")
     count.val(1)
 
     var option = $(e.target).find("option:selected")
@@ -53,11 +55,21 @@ $("#means_of_payment").on("change", (e) => {
         }
     if (option.val() == "") {
         count.val("")
+        first_payment.text("")
+    }
+    if (sum.val() > 0) {
+        $.get("api/calculate/sum/" + sum.val() + "/payments/" + count.val() + "/first_payment", (data, textStatus, jqXHR) => {
+            first_payment.text(data.first_payment)
+        }, "json")
+    }
+    else {
+        first_payment.text("")
     }
 })
 
 $("#means_of_payment, #payments_count").on("blur", (e) => {
     var count = $("#payments_count")
+
     if(isNaN(count.val())) {
         count.val(1)
         count.focus()
@@ -66,11 +78,19 @@ $("#means_of_payment, #payments_count").on("blur", (e) => {
 
 $("#sum").on("keyup", (e) => {
     var sum = $("#sum")
+    var first_payment = $("#preview_first_payment")
+
     if (isNaN(e.target.value)) {
         sum.val(sum.val().slice(0, -1))
     }
     else {
         if (sum.val().search(/\./) > 0 && sum.val().split(".")[1].length > 2) sum.val(sum.val().slice(0, -1))
+    }
+    if (sum.val() == "") first_payment.text("")
+    else {
+        $.get("api/calculate/sum/" + sum.val() + "/payments/" + count.val() + "/first_payment", (data, textStatus, jqXHR) => {
+            first_payment.text(data.first_payment)
+        }, "json")
     }
 })
 

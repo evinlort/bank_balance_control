@@ -22,4 +22,7 @@ $(document).on("click", "#payments_add, #payments_subtract", (e) => {
             first_payment.text(data.first_payment)
         }, "json")
     }
+    else {
+        first_payment.text("")
+    }
 })
