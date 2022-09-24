@@ -43,6 +43,7 @@ $("#means_of_payment").on("change", (e) => {
     var payments_div = $("#payments-div")
     var count = $("#payments_count")
     var first_payment = $("#preview_first_payment")
+    var first_payment_label = $("#first_payment_label")
     var sum = $("#sum")
     count.val(1)
 
@@ -58,11 +59,13 @@ $("#means_of_payment").on("change", (e) => {
         first_payment.text("")
     }
     if (sum.val() > 0) {
+        first_payment_label.removeClass("d-none")
         $.get("api/calculate/sum/" + sum.val() + "/payments/" + count.val() + "/first_payment", (data, textStatus, jqXHR) => {
             first_payment.text(data.first_payment)
         }, "json")
     }
     else {
+        first_payment_label.addClass("d-none")
         first_payment.text("")
     }
 })
@@ -79,6 +82,7 @@ $("#means_of_payment, #payments_count").on("blur", (e) => {
 $("#sum").on("keyup", (e) => {
     var sum = $("#sum")
     var first_payment = $("#preview_first_payment")
+    var first_payment_label = $("#first_payment_label")
 
     if (isNaN(e.target.value)) {
         sum.val(sum.val().slice(0, -1))
@@ -86,9 +90,13 @@ $("#sum").on("keyup", (e) => {
     else {
         if (sum.val().search(/\./) > 0 && sum.val().split(".")[1].length > 2) sum.val(sum.val().slice(0, -1))
     }
-    if (sum.val() == "") first_payment.text("")
+    if (sum.val() == "") {
+        first_payment.text("")
+        first_payment_label.addClass("d-none")
+    }
     else {
         $.get("api/calculate/sum/" + sum.val() + "/payments/" + count.val() + "/first_payment", (data, textStatus, jqXHR) => {
+            first_payment_label.removeClass("d-none")
             first_payment.text(data.first_payment)
         }, "json")
     }
@@ -108,6 +116,7 @@ $("#confirm_payment").on("click", (e) => {
         $.post("api/purchase", purchase_data, response => {
             $("#payments_frame").load(location.href + " #payments_frame");
             fill_categories(fill_means_of_payments())
+            toast_success("Purchase successfully saved", "Payment saved")
         }, "json")
     }
 })
