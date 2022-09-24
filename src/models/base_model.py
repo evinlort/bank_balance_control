@@ -26,13 +26,12 @@ class BaseModel:
     def get_all(self) -> list:
         query = sql.SQL("""
                 SELECT * FROM {};
-        """.format(self.table)
-                        )
+            """.format(self.table)
+        )
 
         self.logger.info(self.db.cursor.mogrify(query))
         self.db.cursor.execute(query)
         fetch = self.db.cursor.fetchall()
-        time.sleep(0.3)
         if fetch is None:
             return []
         return self.convert(fetch)
@@ -47,7 +46,6 @@ class BaseModel:
         params = (_id,)
         self.logger.info(self.db.cursor.mogrify(query, params))
         self.db.cursor.execute(query, params)
-        time.sleep(0.3)
         fetch = self.db.cursor.fetchone()
         if fetch is None:
             return {}
@@ -64,7 +62,6 @@ class BaseModel:
         self.logger.info(self.db.cursor.mogrify(query, params))
         self.db.cursor.execute(query, params)
         fetch = self.db.cursor.fetchall()
-        time.sleep(0.3)
         if fetch is None:
             return []
         return self.convert(fetch)

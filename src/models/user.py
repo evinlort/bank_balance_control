@@ -1,3 +1,5 @@
+import time
+
 from flask_login import UserMixin
 
 from src.webapp import login_manager
@@ -41,7 +43,7 @@ class User(UserMixin, BaseModel):
 
     def get_by_id_for_login(self, user_id):
         query = sql.SQL(f"""
-            SELECT * from users where id = '{user_id}'
+            SELECT * from users where id = {user_id}
         """)
         self.logger.info(self.db.cursor.mogrify(query))
         self.db.cursor.execute(query)
@@ -55,5 +57,6 @@ class User(UserMixin, BaseModel):
 @login_manager.user_loader
 def load_user(user_id):
     u = User()
+    time.sleep(0.3)  # if not set, can mix with next query execution and make problems
     u.get_by_id_for_login(user_id)
     return u

@@ -1,7 +1,6 @@
-from datetime import datetime
 
 from flask import jsonify, request
-from flask_login import current_user
+from flask_login import current_user, login_required
 
 from src.config import logger
 from . import api
@@ -12,13 +11,16 @@ from src.models import (
 
 
 @api.route('/categories', methods=["GET"])
+@login_required
 def get_all_family_categories():
     cat = Category(db)
+    logger.error(current_user.__dict__)
     categories = cat.get_all_family_categories(family_id=current_user.family_id)
     return jsonify(categories)
 
 
 @api.route('/category', methods=["POST"])
+@login_required
 def add_category():
     new_cat_name = request.form.get("category_name")
     cat = Category(db)
@@ -28,6 +30,7 @@ def add_category():
 
 
 @api.route('/category/<_id>', methods=["PATCH"])
+@login_required
 def edit_category(_id: str):
     cat_name_edited = request.get_data(as_text=True).split("=")[1]
     cat = Category(db)
