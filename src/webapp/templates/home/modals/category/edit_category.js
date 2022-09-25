@@ -28,7 +28,7 @@ $("#edit_category_button").on("click", e => {
             )[0].data("categoryId")
         )
     }
-    $.patch("/api/category/" + id, data, response => {
+    $.patch("/api/category/" + id, JSON.stringify(data), response => {
         if (response.updated_id !== 0) {
             fill_categories(set_cat_id)
             $("#category_name").val(cat_name_edit.val())
@@ -37,5 +37,5 @@ $("#edit_category_button").on("click", e => {
         else {
             toast_danger("Please, provide category name!", "No category")
         }
-    }, "json")
+    }, "application/json")
 })

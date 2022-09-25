@@ -32,7 +32,7 @@ def add_category():
 @api.route('/category/<_id>', methods=["PATCH"])
 @login_required
 def edit_category(_id: str):
-    cat_name_edited = request.get_data(as_text=True).split("=")[1]
+    cat_name_edited = request.get_json()["category_name"]
     cat = Category(db)
     to_update = {"name": cat_name_edited}
     updated_id = cat.update(_id, to_update)
