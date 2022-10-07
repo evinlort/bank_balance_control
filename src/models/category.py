@@ -12,7 +12,7 @@ class Category(BaseModel):
         categories = self.get_by_column("family_id", family_id)
         return categories
 
-    def update(self, _id: str, data: dict):
+    def update(self, _id: str, data: dict) -> int:
         query = sql.SQL("UPDATE {} SET {} WHERE id=%(id)s RETURNING id".format(self.table, sql.SQL(', ').join(
                     [
                         sql.SQL(key+"=") + sql.Placeholder(key) for key, value in data.items()

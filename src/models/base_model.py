@@ -66,7 +66,7 @@ class BaseModel:
             return []
         return self.convert(fetch)
 
-    def save(self, data_to_save: dict):
+    def save(self, data_to_save: dict) -> int:
         try:
             raw_table_columns = self.get_table_columns()
             to_insert_columns = []
@@ -101,7 +101,7 @@ class BaseModel:
             self.logger.error(str(pg_uniq))
             return -1
 
-    def update(self, _id, data):
+    def update(self, _id: str, data: dict) -> int:
         raise NotImplemented
 
     def get_table_columns(self) -> list:
