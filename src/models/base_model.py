@@ -5,6 +5,7 @@ import psycopg2.errors
 from psycopg2 import sql
 
 from src.config import logger
+from src.decorators import validate_attributes
 from src.webapp import db
 
 
@@ -101,6 +102,7 @@ class BaseModel:
             self.logger.error(str(pg_uniq))
             return -1
 
+    @validate_attributes
     def update(self, _id: str, data: dict) -> int:
         raise NotImplemented
 
