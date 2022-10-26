@@ -12,6 +12,6 @@ python3 -m pip install virtualenv
 python3 -m virtualenv venv
 
 source $DIR/$APP/venv/bin/activate
-pip3 install -r requirements.txt
+`which python` -m pip install -r requirements.txt
 #flask run --host=0.0.0.0 --port=8080
 gunicorn -w 1 -b 0.0.0.0:8080 'src:app'
