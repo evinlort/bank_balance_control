@@ -136,3 +136,4 @@ dmypy.json
 /.idea/modules.xml
 /.idea/inspectionProfiles/profiles_settings.xml
 /.idea/vcs.xml
+/src/flask_session
