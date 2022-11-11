@@ -114,8 +114,18 @@ $("#confirm_payment").on("click", (e) => {
     }
     if (is_not_empty(purchase_data)) {
         $.post("api/purchase", purchase_data, response => {
-            $("#payments_frame").load(location.href + " #payments_frame");
-            fill_categories(fill_means_of_payments())
+            $("#sum").val("")
+            $("#category_name").val("")
+            $("#category_id").val("")
+            $("#means_of_payment").val("")
+            $("#first_payment_label").addClass("d-none")
+            $("#preview_first_payment").text("")
+            $("#payments_count").val("")
+            disable_children_elements($("#payments-div"))
+            $("#datepicker").datepicker("setDate", Date())
+            $("#date").val("")
+            $("#comment").val("")
+
             toast_success("Purchase successfully saved", "Payment saved")
         }, "json")
     }
