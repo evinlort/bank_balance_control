@@ -123,8 +123,8 @@ $("#confirm_payment").on("click", (e) => {
             $("#preview_first_payment").text("")
             $("#payments_count").val("")
             disable_children_elements($("#payments-div"))
-            $("#datepicker").datepicker("setDate", Date())
             $("#date").val("")
+            $("#datepicker").datepicker("setDate", '+0d')
             $("#comment").val("")
 
             toast_success("Purchase successfully saved", "Payment saved")
