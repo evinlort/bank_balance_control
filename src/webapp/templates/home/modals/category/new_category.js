@@ -36,7 +36,6 @@ $("#modal_add_new_category_button").on("click", e => {
         )
     }
     $.post("/api/category", data, response => {
-        log(typeof(response.new_id))
         if (response.new_id > 0) {
             fill_categories(set_cat_id)
             $("#category_name").val(new_cat.val())
