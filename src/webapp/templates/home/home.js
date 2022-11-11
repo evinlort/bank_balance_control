@@ -117,6 +117,7 @@ $("#confirm_payment").on("click", (e) => {
             $("#sum").val("")
             $("#category_name").val("")
             $("#category_id").val("")
+            $("#category-balance-text").addClass("d-none")
             $("#means_of_payment").val("")
             $("#first_payment_label").addClass("d-none")
             $("#preview_first_payment").text("")
