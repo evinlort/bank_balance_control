@@ -19,7 +19,8 @@ def home_page():
     month_number = current_date.strftime("%m")
     month_name = current_date.strftime("%B")
 
-    balances = Balance().get_by_month_year(month=month_number, year=year)
+    # balances = Balance().get_by_month_year(month=month_number, year=year)
+    balances = [{"defined": 0, "current": 0}]
     balance = {
         "defined": sum([balance["defined"] for balance in balances]),
         "current": sum([balance["current"] for balance in balances])
