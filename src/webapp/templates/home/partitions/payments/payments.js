@@ -1,3 +1,12 @@
+$("#means_of_payment, #payments_count").on("blur", (e) => {
+    var count = $("#payments_count")
+
+    if(isNaN(count.val())) {
+        count.val(1)
+        count.focus()
+    }
+})
+
 $(document).on("click", "#payments_add, #payments_subtract", (e) => {
     var count = $("#payments_count")
     var first_payment = $("#preview_first_payment")

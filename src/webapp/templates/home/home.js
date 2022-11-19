@@ -8,15 +8,6 @@ $("#datepicker").datepicker({
     dateFormat: "dd/mm/yy"
 }).datepicker('setDate', '+0d')
 
-$("#means_of_payment, #payments_count").on("blur", (e) => {
-    var count = $("#payments_count")
-
-    if(isNaN(count.val())) {
-        count.val(1)
-        count.focus()
-    }
-})
-
 $("#confirm_payment").on("click", (e) => {
     var purchase_data = {
         sum: $("#sum").val(),
