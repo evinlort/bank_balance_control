@@ -13,7 +13,7 @@ $("#sum").on("keyup", (e) => {
         if (sum.val().search(/\./) > 0 && sum.val().split(".")[1].length > 2) sum.val(sum.val().slice(0, -1))
     }
 
-    if (sum.val().length > 1 && sum.val()[0] === "0") {
+    if (sum.val().length > 1 && sum.val().search(/\./) == -1 && sum.val()[0] === "0") {
         sum.val(sum.val().slice(1))
     }
 
