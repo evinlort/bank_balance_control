@@ -16,32 +16,7 @@
     <div class="row frame m-2">
         <div class="col">
             {% include  "home/partitions/sum/sum.html" %}
-            <div class="row my-1">
-                <div class="col-5 col_name">
-                    Category
-                </div>
-                <div class="col-5">
-                    <input class="form-control" list="categories-datalist" id="category_name" placeholder="Type to search..." autocomplete="true" aria-describedby="category-balance-text">
-                    <div id="category-balance-text" class="form-text d-none">
-                        <div class="row">
-                            <div class="col-2"></div>
-                            <div class="col-2"></div>
-                            <div class="col-8 text-end"><span id="category-balance">1234.56</span> <span id="default_currency_sign">$</span></div>
-                        </div>
-                    </div>
-                    <input type="hidden" id="category_id">
-                    <datalist id="categories-datalist">
-<!--                        <option value="Minks" data-category-id="123">
-                        <option value="New York">
-                        <option value="Seattle">
-                        <option value="Los Angeles">
-                        <option value="Chicago">-->
-                    </datalist>
-                </div>
-                <div class="col-2 text-start">
-                    <i class="align-bottom fa-solid fa-circle-plus" id="add_new_category"></i>
-                </div>
-            </div>
+            {% include  "home/partitions/category/category.html" %}
             <div class="row my-1">
                 <div class="col-5 col_name">
                     Means of payment
@@ -116,24 +91,31 @@
 <br/>
 
 {% include "home/modals/currency/modal_change_sum_currency.html" %}
-{% include "home/modals/category/modal_new_category.html" %}
-{% include "home/modals/category/modal_edit_category.html" %}
 
 {% endblock %}
 
 {% block javascript %}
 
 {% include  "home/modals/currency/change_sum_currency.js" %}
-{% include  "home/modals/category/new_category.js" %}
-{% include  "home/modals/category/edit_category.js" %}
+
 {% include  "home/choose_means_of_payment.js" %}
-{% include  "home/choose_category.js" %}
-{% include  "home/category_actions.js" %}
+
+
 {% include  "home/payments_actions.js" %}
 
 {% include  "home/home.js" %}
 
 <!-- PARTITIONS -->
+<!-- SUM -->
 {% include  "home/partitions/sum/sum.js" %}
+<!-- CATEGORY -->
+{% include  "home/partitions/category/choose_category.js" %}
+{% include  "home/partitions/category/category.js" %}
+{% include  "home/partitions/category/category_actions.js" %}
+{% include  "home/partitions/category/modals/new_category.js" %}
+{% include  "home/partitions/category/modals/edit_category.js" %}
+<!-- xx -->
+
+<!-- END PARTITIONS -->
 
 {% endblock %}
