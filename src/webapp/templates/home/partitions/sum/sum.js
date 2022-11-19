@@ -6,15 +6,11 @@ $("#sum").on("keyup", (e) => {
     if (isNaN(e.target.value)) {
         sum.val(sum.val().slice(0, -1))
     }
-    else if (sum.val() === "00") {
-        sum.val(sum.val().slice(0, -1))
+    else if (sum.val().length > 1 && sum.val()[0] === "0" && sum.val()[1] !== "." && !isNaN(sum.val()[sum.val().length - 1] )) {
+        sum.val(sum.val().slice(1))
     }
     else {
         if (sum.val().search(/\./) > 0 && sum.val().split(".")[1].length > 2) sum.val(sum.val().slice(0, -1))
-    }
-
-    if (sum.val().length > 1 && sum.val().search(/\./) == -1 && sum.val()[0] === "0") {
-        sum.val(sum.val().slice(1))
     }
 
     if (sum.val() == "") {
