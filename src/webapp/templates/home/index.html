@@ -15,16 +15,7 @@
 <div class="container" id="payments_frame">
     <div class="row frame m-2">
         <div class="col">
-            <div class="row my-1">
-                <div class="col-5 col_name">
-                    Sum
-                </div>
-                <div class="col-5" id="sum-div">
-                    <input type="text" class="form-control" placeholder="0.00" id="sum">
-                </div>
-                <div class="col-2 text-start">
-                </div>
-            </div>
+            {% include  "home/partitions/sum/sum.html" %}
             <div class="row my-1">
                 <div class="col-5 col_name">
                     Category
@@ -141,5 +132,8 @@
 {% include  "home/payments_actions.js" %}
 
 {% include  "home/home.js" %}
+
+<!-- PARTITIONS -->
+{% include  "home/partitions/sum/sum.js" %}
 
 {% endblock %}
