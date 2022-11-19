@@ -1,0 +1,26 @@
+<div class="row my-1">
+    <div class="col-5 col_name">
+        Category
+    </div>
+    <div class="col-5">
+        <input class="form-control" list="categories-datalist" id="category_name" placeholder="Type to search..."
+               autocomplete="true" aria-describedby="category-balance-text">
+        <div id="category-balance-text" class="form-text d-none">
+            <div class="row">
+                <div class="col-2"></div>
+                <div class="col-2"></div>
+                <div class="col-8 text-end"><span id="category-balance">1234.56</span> <span id="default_currency_sign">$</span>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" id="category_id">
+        <datalist id="categories-datalist">
+        </datalist>
+    </div>
+    <div class="col-2 text-start">
+        <i class="align-bottom fa-solid fa-circle-plus" id="add_new_category"></i>
+    </div>
+</div>
+
+{% include "home/partitions/category/modals/modal_new_category.html" %}
+{% include "home/partitions/category/modals/modal_edit_category.html" %}

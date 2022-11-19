@@ -2,11 +2,6 @@ $("#edit_existing_category").on('shown.bs.modal', () => {
     $(this).find('#edit_category_name').focus();
 })
 
-$("#edit_existing_category").on('hidden.bs.modal', () => {
-    $(this).find('#edit_category_name').val("");
-})
-
-
 $("#edit_category_button").on("click", e => {
     var cat_name_edit = $("#edit_category_name")
     var id = $("#category_id").val()
