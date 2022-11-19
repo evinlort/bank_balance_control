@@ -20,17 +20,8 @@
             {% include  "home/partitions/means_of_payment/means_of_payment.html" %}
             {% include  "home/partitions/payments/payments.html" %}
             {% include  "home/partitions/date/date.html" %}
+            {% include  "home/partitions/comment/comment.html" %}
 
-            <div class="row my-1">
-                <div class="col-5 col_name">
-                    Comment
-                </div>
-                <div class="col-5">
-                    <textarea id="comment" class="form-control"></textarea>
-                </div>
-                <div class="col-2 text-start">
-                </div>
-            </div>
             <hr>
             <div class="row mt-2">
                 <div class="col-5">
@@ -72,8 +63,8 @@
 {% include  "home/partitions/payments/payments.js" %}
 <!-- DATE -->
 {% include  "home/partitions/date/date.js" %}
-<!-- xx -->
-
+<!-- COMMENT -->
+{% include  "home/partitions/comment/comment.js" %}
 <!-- END PARTITIONS -->
 
 {% endblock %}
