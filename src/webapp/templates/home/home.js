@@ -1,13 +1,3 @@
-$("#datepicker").datepicker({
-    changeMonth: true,
-    changeYear: true,
-    minDate: -20,
-    maxDate: "+0D",
-    altField: "#date",
-    altFormat: "yy-mm-dd",
-    dateFormat: "dd/mm/yy"
-}).datepicker('setDate', '+0d')
-
 $("#confirm_payment").on("click", (e) => {
     var purchase_data = {
         sum: $("#sum").val(),
