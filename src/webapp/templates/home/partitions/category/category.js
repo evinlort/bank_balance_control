@@ -1,3 +1,21 @@
+fill_categories = (callback=()=>{}) => {
+    $.get("/api/categories", (data, status, xhr) => {
+        var datalist = $("#categories-datalist")
+        var cat_id = $("#category_id")
+        datalist.html("")
+        cat_id.val("")
+        for (item of data) {
+           var option = "<option value='" + capitalize_first_letter(item.name) + "' data-category-id='" + item.id + "'></option>"
+           datalist.append(option)
+        }
+        callback()
+    }, "json")
+}
+
+$("#category_name").on("click", (e) => {
+    $(e.target).select()
+})
+
 $("#category_name").on('input change', (e) => {
     var cat_id_input = $("#category_id")
     var selectedValue = $(e.target).val()
@@ -27,6 +45,4 @@ $("#category_name").on('input change', (e) => {
     })
 
     cat_id_input.val(category_id)
-});
-
-fill_categories(fill_means_of_payments())
+})

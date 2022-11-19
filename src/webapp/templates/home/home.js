@@ -8,37 +8,6 @@ $("#datepicker").datepicker({
     dateFormat: "dd/mm/yy"
 }).datepicker('setDate', '+0d')
 
-$("#means_of_payment").on("change", (e) => {
-    var payments_div = $("#payments-div")
-    var count = $("#payments_count")
-    var first_payment = $("#preview_first_payment")
-    var first_payment_label = $("#first_payment_label")
-    var sum = $("#sum")
-    count.val(1)
-
-    var option = $(e.target).find("option:selected")
-    if ($(option).data("paymentsEnabled")) {
-            enable_children_elements(payments_div)
-        }
-        else {
-            disable_children_elements(payments_div)
-        }
-    if (option.val() == "") {
-        count.val("")
-        first_payment.text("")
-    }
-    if (sum.val() > 0) {
-        first_payment_label.removeClass("d-none")
-        $.get("api/calculate/sum/" + sum.val() + "/payments/" + count.val() + "/first_payment", (data, textStatus, jqXHR) => {
-            first_payment.text(data.first_payment)
-        }, "json")
-    }
-    else {
-        first_payment_label.addClass("d-none")
-        first_payment.text("")
-    }
-})
-
 $("#means_of_payment, #payments_count").on("blur", (e) => {
     var count = $("#payments_count")
 

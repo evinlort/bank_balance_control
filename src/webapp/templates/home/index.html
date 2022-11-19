@@ -17,21 +17,8 @@
         <div class="col">
             {% include  "home/partitions/sum/sum.html" %}
             {% include  "home/partitions/category/category.html" %}
-            <div class="row my-1">
-                <div class="col-5 col_name">
-                    Means of payment
-                </div>
-                <div class="col-5">
-                    <select class="form-select" id="means_of_payment">
-                        <option selected="selected" class="small mark" value="">Select mean of payment</option>
-<!--                        <option value="1" data-payments-enabled="1">Credit Card</option>-->
-<!--                        <option value="2" data-payments-enabled="0">Cash</option>-->
-<!--                        <option value="3" data-payments-enabled="0">Jedi force</option>-->
-                    </select>
-                </div>
-                <div class="col-2 text-start">
-                </div>
-            </div>
+            {% include  "home/partitions/means_of_payment/means_of_payment.html" %}
+
             <div class="row my-1">
                 <div class="col-5 col_name">
                     Payments
@@ -98,7 +85,7 @@
 
 {% include  "home/modals/currency/change_sum_currency.js" %}
 
-{% include  "home/choose_means_of_payment.js" %}
+
 
 
 {% include  "home/payments_actions.js" %}
@@ -109,11 +96,12 @@
 <!-- SUM -->
 {% include  "home/partitions/sum/sum.js" %}
 <!-- CATEGORY -->
-{% include  "home/partitions/category/choose_category.js" %}
 {% include  "home/partitions/category/category.js" %}
 {% include  "home/partitions/category/category_actions.js" %}
 {% include  "home/partitions/category/modals/new_category.js" %}
 {% include  "home/partitions/category/modals/edit_category.js" %}
+<!-- MEANS OF PAYMENT -->
+{% include  "home/partitions/means_of_payment/means_of_payment.js" %}
 <!-- xx -->
 
 <!-- END PARTITIONS -->
