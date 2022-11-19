@@ -126,4 +126,4 @@ if (option.val() == "") {
 }
 
 fill_categories(fill_means_of_payments())
-$("#sum").focus()
+

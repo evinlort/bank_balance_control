@@ -20,3 +20,5 @@ $("#sum").on("keyup", (e) => {
         }, "json")
     }
 })
+
+$("#sum").focus()
