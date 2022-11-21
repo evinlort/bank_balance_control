@@ -2,12 +2,13 @@
 import os
 import subprocess
 import sys
+import logging
 
 import psutil
 
 print("Migrations here")
 
-database_init = "template1"
+database = "bbc"
 
 
 def execute(cmd: list):
@@ -34,6 +35,15 @@ def execute(cmd: list):
 
 
 class Migrate:
+    def __init__(self):
+        self.logger = logging.getLogger()
+        self.logger.setLevel(logging.DEBUG)
+        handler = logging.StreamHandler(sys.stdout)
+        handler.setLevel(logging.DEBUG)
+        formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(filename)s:%(funcName)s:%(lineno)s - %(message)s')
+        handler.setFormatter(formatter)
+        self.logger.addHandler(handler)
+
     def init(self):
         cmd = [
             "ls",
@@ -45,17 +55,57 @@ class Migrate:
         _, migration_files, _ = execute(cmd)
 
         for migration_file in migration_files:
-            print(migration_file)
-            cmd = [
-                "psql",
-                database_init,
-                "<",
-                f"migrations/{migration_file}"
-            ]
-            rc, o, e = execute(cmd)
-            print(o)
-            print(e)
-            assert not rc, e
+            self.run_migration(migration_file)
+
+    def add_to_plan(self, filename):
+        sql = f"""
+            INSERT INTO migrations.plan VALUES ('{filename}')
+        """
+        cmd = [
+            "psql",
+            database,
+            "-c",
+            f'"{sql}"'
+        ]
+        rc, o, e = execute(cmd)
+        assert not rc, e
+
+    def run_migration(self, filename):
+        if filename.startswith("_"):
+            return
+        if self.is_migrated(filename):
+            self.logger.info(f"{filename} already executed")
+            return
+        cmd = [
+            "psql",
+            database,
+            "<",
+            f"migrations/{filename}"
+        ]
+        rc, o, e = execute(cmd)
+        assert not rc, e
+        self.add_to_plan(filename)
+
+    def is_migrated(self, filename):
+        query = f"""
+            SELECT migration FROM migrations.plan WHERE migration = '{filename}'
+        """
+        cmd = [
+            "psql",
+            database,
+            "-t",
+            "-c",
+            f'"{query}"',
+
+        ]
+        rc, o, e = execute(cmd)
+        assert not rc, e
+
+        self.logger.info(o)
+        self.logger.info(e)
+        if len(o) == 1 and o[0].strip() == filename:
+            return True
+        return False
 
     def list_databases(self):
         cmd = ["psql --list | tail -n +4| head -n -2 | awk '{print $1}' | sed 's/|//'"]

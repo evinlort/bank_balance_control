@@ -1,4 +1,3 @@
-\connect bbc;
 CREATE TABLE IF NOT EXISTS families (
     id SERIAL PRIMARY KEY,
     name VARCHAR(50)
