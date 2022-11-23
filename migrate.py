@@ -108,6 +108,9 @@ class Migrate:
             return
         cmd = f"psql {database} < {directory}/{filename}"
         rc, o, e = execute(cmd)
+        self.logger.info("Run Migration")
+        self.logger.info(o)
+        self.logger.info(e)
         assert not rc, e
 
     def is_migrated(self, filename):
