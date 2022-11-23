@@ -68,8 +68,25 @@ class Migrate:
                 self.run_migration(revert_dir, migration_file)
                 self.remove_from_plan(migration_file)
 
-    def add(self):
-        template_dir = f"{self.migrations_dir}/templates"
+    def add(self, migration_name):
+        migration_paths = [f"migrations/deploy/{migration_name}.sql", f"migrations/revert/{migration_name}.sql"]
+        for migration_path in migration_paths:
+            cmd = f"test -e {migration_path}"
+            rc, o, e = execute(cmd)
+            if not rc:
+                self.logger.info(f"{migration_path} already exists. Skipping")
+                continue
+            self.logger.info(f"Creating the new {migration_path}")
+            cmd = f"touch {migration_path}"
+            rc, o, e = execute(cmd)
+            assert not rc, e
+
+    def remove(self, migration_name):
+        migration_paths = [f"migrations/deploy/{migration_name}.sql", f"migrations/revert/{migration_name}.sql"]
+        for migration_path in migration_paths:
+            cmd = f"rm {migration_path}"
+            rc, o, e = execute(cmd)
+            assert not rc, e
 
     def add_to_plan(self, filename):
         sql = f"INSERT INTO migrations.plan VALUES ('{filename}')"
@@ -129,9 +146,8 @@ class Migrate:
 if __name__ == "__main__":
     args = sys.argv[1:]
     migrate = Migrate()
-    for arg in args:
-        func = getattr(migrate, arg, False)
-        if func:
-            func()
-        else:
-            print("Not found")
+    func = getattr(migrate, args[0], False)
+    if func:
+        func(*args[1:])
+    else:
+        print("Not found")
