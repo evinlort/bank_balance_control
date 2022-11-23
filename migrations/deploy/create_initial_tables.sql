@@ -15,8 +15,8 @@ CREATE TABLE IF NOT EXISTS genders (
 CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
     username VARCHAR(50) UNIQUE,
-    fname VARCHAR(50),
-    lname VARCHAR(50),
+    fname VARCHAR(50) NOT NULL,
+    lname VARCHAR(50) NOT NULL,
     gender_id INTEGER,
     day_of_birth DATE,
     password_hash text DEFAULT NULL,

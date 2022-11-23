@@ -11,10 +11,9 @@ print("Migrations here")
 database = "bbc"
 
 
-def execute(cmd: list):
-    execline = " ".join(cmd)
+def execute(cmd: str):
     p = psutil.Popen(
-        execline,
+        cmd,
         env=os.environ,
         shell=True,
         stderr=subprocess.PIPE,
@@ -44,74 +43,87 @@ class Migrate:
         handler.setFormatter(formatter)
         self.logger.addHandler(handler)
 
+        self.migrations_dir = "migrations"
+
     def init(self):
-        cmd = [
-            "ls",
-            "-ltr",
-            "migrations",
-            "| awk",
-            "'{print $9}'"
-        ]
-        _, migration_files, _ = execute(cmd)
+        migration_files = self.get_files_in_dir(self.migrations_dir)
 
         for migration_file in migration_files:
-            self.run_migration(migration_file)
+            self.run_migration(self.migrations_dir, migration_file)
+
+    def deploy(self):
+        deploy_dir = f"{self.migrations_dir}/deploy"
+        migration_files = self.get_files_in_dir(deploy_dir)
+        self.logger.info(migration_files)
+        for migration_file in migration_files:
+            if not self.is_migrated(migration_file):
+                self.run_migration(deploy_dir, migration_file)
+                self.add_to_plan(migration_file)
+
+    def revert(self):
+        revert_dir = f"{self.migrations_dir}/revert"
+        migration_files = self.get_files_in_dir(revert_dir)
+        for migration_file in migration_files:
+            if self.is_migrated(migration_file):
+                self.run_migration(revert_dir, migration_file)
+                self.remove_from_plan(migration_file)
+
+    def add(self):
+        template_dir = f"{self.migrations_dir}/templates"
 
     def add_to_plan(self, filename):
-        sql = f"""
-            INSERT INTO migrations.plan VALUES ('{filename}')
-        """
-        cmd = [
-            "psql",
-            database,
-            "-c",
-            f'"{sql}"'
-        ]
+        sql = f"INSERT INTO migrations.plan VALUES ('{filename}')"
+        self.logger.info(sql)
+        self.execute_query(sql)
+
+    def remove_from_plan(self, filename):
+        sql = f"DELETE FROM migrations.plan WHERE migration = '{filename}'"
+        self.logger.info(sql)
+        self.execute_query(sql)
+
+    def execute_query(self, sql):
+        cmd = f"psql {database} -c \"{sql}\""
         rc, o, e = execute(cmd)
         assert not rc, e
 
-    def run_migration(self, filename):
+    def run_migration(self, directory, filename):
         if filename.startswith("_"):
             return
-        if self.is_migrated(filename):
-            self.logger.info(f"{filename} already executed")
-            return
-        cmd = [
-            "psql",
-            database,
-            "<",
-            f"migrations/{filename}"
-        ]
+        cmd = f"psql {database} < {directory}/{filename}"
         rc, o, e = execute(cmd)
         assert not rc, e
-        self.add_to_plan(filename)
 
     def is_migrated(self, filename):
-        query = f"""
-            SELECT migration FROM migrations.plan WHERE migration = '{filename}'
-        """
-        cmd = [
-            "psql",
-            database,
-            "-t",
-            "-c",
-            f'"{query}"',
-
-        ]
+        query = f"SELECT migration FROM migrations.plan WHERE migration = '{filename}'"
+        cmd = f"psql {database} -t -c \"{query}\""
         rc, o, e = execute(cmd)
+        self.logger.info(rc)
         assert not rc, e
 
         self.logger.info(o)
         self.logger.info(e)
+        if not o:
+            self.logger.info("No such entry")
+            return False
         if len(o) == 1 and o[0].strip() == filename:
+            self.logger.info("Entry exists")
             return True
         return False
 
     def list_databases(self):
-        cmd = ["psql --list | tail -n +4| head -n -2 | awk '{print $1}' | sed 's/|//'"]
+        cmd = "psql --list | tail -n +4| head -n -2 | awk '{print $1}' | sed 's/|//'"
         rc, o, e = execute(cmd)
         assert not rc, e
         return o
+
+    def get_files_in_dir(self, directory):
+        cmd = f'find {directory} -maxdepth 1 -not -type d -printf "%T@ %Tc %p\n" | sort -n| awk \'{{print $7}}\''
+        self.logger.info(cmd)
+        _, migration_files_path, _ = execute(cmd)
+        self.logger.info(migration_files_path)
+        migration_files = [filename.split("/")[-1] for filename in migration_files_path]
+        self.logger.info(migration_files)
+        return migration_files
 
 
 if __name__ == "__main__":
