@@ -8,7 +8,6 @@ import psutil
 
 print("Migrations here")
 
-database_for_init = "template1"
 database = "bbc"
 
 
@@ -50,7 +49,7 @@ class Migrate:
         migration_files = self.get_files_in_dir(self.migrations_dir)
 
         for migration_file in migration_files:
-            self.run_migration(self.migrations_dir, migration_file, database=database_for_init)
+            self.run_migration(self.migrations_dir, migration_file)
 
     def deploy(self):
         deploy_dir = f"{self.migrations_dir}/deploy"
@@ -104,7 +103,7 @@ class Migrate:
         rc, o, e = execute(cmd)
         assert not rc, e
 
-    def run_migration(self, directory, filename, database=database):
+    def run_migration(self, directory, filename):
         if filename.startswith("_"):
             return
         cmd = f"psql {database} < {directory}/{filename}"
