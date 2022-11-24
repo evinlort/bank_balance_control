@@ -7,6 +7,7 @@ APP=bank_balance_control
 export DEVELOPMENT=1
 export FLASK_APP=src
 export SECRET_KEY='Once there is a way to get back homeward'
+export DATABASE='bbc'
 
 cd $DIR/$APP
 rm -rf $DIR/$APP/venv

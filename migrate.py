@@ -6,8 +6,7 @@ import logging
 
 import psutil
 
-print("Migrations here")
-
+db_init = "template1"
 database = "bbc"
 
 
@@ -49,7 +48,7 @@ class Migrate:
         migration_files = self.get_files_in_dir(self.migrations_dir)
 
         for migration_file in migration_files:
-            self.run_migration(self.migrations_dir, migration_file)
+            self.run_migration(self.migrations_dir, migration_file, db_init)
 
     def deploy(self):
         deploy_dir = f"{self.migrations_dir}/deploy"
@@ -57,7 +56,7 @@ class Migrate:
         self.logger.info(migration_files)
         for migration_file in migration_files:
             if not self.is_migrated(migration_file):
-                self.run_migration(deploy_dir, migration_file)
+                self.run_migration(deploy_dir, migration_file, database)
                 self.add_to_plan(migration_file)
 
     def revert(self):
@@ -65,7 +64,7 @@ class Migrate:
         migration_files = self.get_files_in_dir(revert_dir)
         for migration_file in migration_files:
             if self.is_migrated(migration_file):
-                self.run_migration(revert_dir, migration_file)
+                self.run_migration(revert_dir, migration_file, database)
                 self.remove_from_plan(migration_file)
 
     def add(self, migration_name):
@@ -90,12 +89,10 @@ class Migrate:
 
     def add_to_plan(self, filename):
         sql = f"INSERT INTO migrations.plan VALUES ('{filename}')"
-        self.logger.info(sql)
         self.execute_query(sql)
 
     def remove_from_plan(self, filename):
         sql = f"DELETE FROM migrations.plan WHERE migration = '{filename}'"
-        self.logger.info(sql)
         self.execute_query(sql)
 
     def execute_query(self, sql):
@@ -103,30 +100,25 @@ class Migrate:
         rc, o, e = execute(cmd)
         assert not rc, e
 
-    def run_migration(self, directory, filename):
+    def run_migration(self, directory, filename, database):
         if filename.startswith("_"):
             return
         cmd = f"psql {database} < {directory}/{filename}"
         rc, o, e = execute(cmd)
-        self.logger.info("Run Migration")
-        self.logger.info(o)
-        self.logger.info(e)
+        self.logger.info(f"Run Migration - {filename}")
         assert not rc, e
 
     def is_migrated(self, filename):
         query = f"SELECT migration FROM migrations.plan WHERE migration = '{filename}'"
         cmd = f"psql {database} -t -c \"{query}\""
         rc, o, e = execute(cmd)
-        self.logger.info(rc)
         assert not rc, e
 
-        self.logger.info(o)
-        self.logger.info(e)
         if not o:
             self.logger.info("No such entry")
             return False
         if len(o) == 1 and o[0].strip() == filename:
-            self.logger.info("Entry exists")
+            self.logger.info(f"Entry {filename} exists")
             return True
         return False
 
@@ -138,11 +130,8 @@ class Migrate:
 
     def get_files_in_dir(self, directory):
         cmd = f'find {directory} -maxdepth 1 -not -type d -printf "%T@ %Tc %p\n" | sort -n| awk \'{{print $7}}\''
-        self.logger.info(cmd)
         _, migration_files_path, _ = execute(cmd)
-        self.logger.info(migration_files_path)
         migration_files = [filename.split("/")[-1] for filename in migration_files_path]
-        self.logger.info(migration_files)
         return migration_files
 
 
