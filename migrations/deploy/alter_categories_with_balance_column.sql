@@ -1,0 +1,1 @@
+ALTER TABLE categories ADD balance money NULL DEFAULT 0;
