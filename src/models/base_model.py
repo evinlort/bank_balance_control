@@ -75,8 +75,11 @@ class BaseModel:
             for col in raw_table_columns:
                 if self.get_type_by_column_name(col) == "timestamp":
                     continue
+                if self.get_type_by_column_name(col) == "money":
+                    if col not in data_to_save:
+                        data_to_save[col] = 0
                 to_insert_columns.append(col)
-                to_save_values.append(str(data_to_save[col] if col in data_to_save else "NULL"))
+                to_save_values.append(str(data_to_save[col]) if col in data_to_save else 'NULL')
 
             self.logger.info(to_save_values)
 
@@ -90,7 +93,7 @@ class BaseModel:
                         sql.Placeholder() * len(to_save_values)
                     ).as_string(self.db.cursor)
                 ))
-            self.logger.info(query)
+            self.logger.info(self.db.cursor.mogrify(query, to_save_values))
             self.db.cursor.execute(query, to_save_values)
             self.db.connection.commit()
             fetch = self.db.cursor.fetchone()
@@ -116,7 +119,7 @@ class BaseModel:
         self.db.cursor.execute(query)
         for column in self.db.cursor.description:
             if column[0] == column_name:
-                return self.get_type_code_name(column[1])
+                return self.get_type_code_name(column[1]).lower()
 
     def get_type_code_name(self, type_code: Union[int, str]) -> str:
         query = sql.SQL("SELECT typname FROM pg_type WHERE oid = %s")
