@@ -81,6 +81,7 @@ class Migrate:
             assert not rc, e
 
     def remove(self, migration_name):
+        # TODO if in migrations.plan - firstly revert the migration
         migration_paths = [f"migrations/deploy/{migration_name}.sql", f"migrations/revert/{migration_name}.sql"]
         for migration_path in migration_paths:
             cmd = f"rm {migration_path}"
@@ -99,6 +100,7 @@ class Migrate:
         cmd = f"psql {database} -c \"{sql}\""
         rc, o, e = execute(cmd)
         assert not rc, e
+        return o
 
     def run_migration(self, directory, filename, database):
         if filename.startswith("_"):
@@ -127,6 +129,12 @@ class Migrate:
         rc, o, e = execute(cmd)
         assert not rc, e
         return o
+
+    def list(self):
+        sql = "\dt"
+        tables = self.execute_query(sql)
+        table_names = [table.split("|")[1].strip()  for table in tables[3:-1]]
+        print("\n".join(table_names))
 
     def get_files_in_dir(self, directory):
         cmd = f'find {directory} -maxdepth 1 -not -type d -printf "%T@ %Tc %p\n" | sort -n| awk \'{{print $7}}\''
