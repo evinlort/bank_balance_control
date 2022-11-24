@@ -115,7 +115,7 @@ class Migrate:
         assert not rc, e
 
         if not o:
-            self.logger.info("No such entry")
+            self.logger.info(f"No such entry - {filename}")
             return False
         if len(o) == 1 and o[0].strip() == filename:
             self.logger.info(f"Entry {filename} exists")
