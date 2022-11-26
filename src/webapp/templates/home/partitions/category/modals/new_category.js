@@ -45,6 +45,10 @@ $("#modal_add_new_category_button").on("click", e => {
             $("#add_category_name").focus()
             toast_warning("This category name is already exists!", "Name duplication")
         }
+        else if(response.new_id == -2) {
+            $("#add_category_name").focus()
+            toast_danger("The family isn't set for the user. Please set or create the family for the user.", "Family not set")
+        }
         else {
             toast_danger("Please, provide category name!", "No category")
         }

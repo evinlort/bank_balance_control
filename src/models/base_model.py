@@ -104,6 +104,11 @@ class BaseModel:
             self.db.connection.rollback()
             self.logger.error(str(pg_uniq))
             return -1
+        except psycopg2.errors.InvalidTextRepresentation as itr:
+            if "invalid input syntax for type" in str(itr) and '"None"' in str(itr):
+                self.db.connection.rollback()
+                self.logger.error("There is NULL value given for the 'not null' field")
+                return -2
 
     @validate_attributes
     def update(self, _id: str, data: dict) -> int:
