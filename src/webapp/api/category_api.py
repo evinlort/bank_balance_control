@@ -1,5 +1,5 @@
 
-from flask import jsonify, request
+from flask import jsonify, request, render_template
 from flask_login import current_user, login_required
 
 from src.config import logger
@@ -37,3 +37,14 @@ def edit_category(_id: str):
     to_update = {"name": cat_name_edited}
     updated_id = cat.update(_id, to_update)
     return jsonify({"updated_id": updated_id})
+
+
+@api.route('/edit/categories', methods=["GET"])
+@login_required
+def edit_categories():
+    cat = Category(db)
+    logger.error(current_user.__dict__)
+    categories = cat.get_all_family_categories(family_id=current_user.family_id)
+    logger.info(categories)
+    params = {"categories": categories}
+    return render_template("/category/category.html", params=params)

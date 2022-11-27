@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+  {% block page_body %}
+    <div>
+      {% for category in params.categories %}
+        <div><input type="text" value="{{ category.name|e }}" /><input type="number" value="{{ category.balance }}"/></div>
+      {% endfor %}
+    </div>
+  {% endblock %}
+
+  {% block javascript %}
+  {% endblock %}

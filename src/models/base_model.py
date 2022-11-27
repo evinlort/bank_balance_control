@@ -75,7 +75,7 @@ class BaseModel:
             for col in raw_table_columns:
                 if self.get_type_by_column_name(col) == "timestamp":
                     continue
-                if self.get_type_by_column_name(col) == "money":
+                if self.get_type_by_column_name(col) == "numeric":
                     if col not in data_to_save:
                         data_to_save[col] = 0
                 to_insert_columns.append(col)
