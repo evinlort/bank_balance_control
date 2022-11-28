@@ -1,11 +1,22 @@
 {% extends "base.html" %}
-  {% block page_body %}
-    <div>
-      {% for category in params.categories %}
-        <div><input type="text" value="{{ category.name|e }}" /><input type="number" value="{{ category.balance }}"/></div>
-      {% endfor %}
+{% block page_body %}
+<div class="container">
+        {% for category in params.categories %}
+        <div class="row my-1" id="cat_name_{{ category.name|e }}">
+            <div class="col-4">
+                <span>Category name: </span><input name="category_name" type="text" value="{{ category.name|e }}" />
+            </div>
+            <div class="col-4">
+                <span>Category balance: </span><input class="text-center" name="category_balance" type="number" value="{{ category.balance }}"/>
+            </div>
+            <div class="col-4">
+                <button class="save_edited_category text-start">Save</button>
+            </div>
+        </div>
+        {% endfor %}
     </div>
-  {% endblock %}
+    {% endblock %}
 
-  {% block javascript %}
-  {% endblock %}
+    {% block javascript %}
+        {% include  "category/category.js" %}
+    {% endblock %}

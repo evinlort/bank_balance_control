@@ -32,9 +32,14 @@ def add_category():
 @api.route('/category/<_id>', methods=["PATCH"])
 @login_required
 def edit_category(_id: str):
-    cat_name_edited = request.get_json()["category_name"]
+    cat_balance_edited = 0
+
+    req_json = request.get_json()
+    cat_name_edited = req_json["category_name"]  # mandatory
+    if "category_balance" in req_json:
+        cat_balance_edited = request.get_json()["category_balance"]
     cat = Category(db)
-    to_update = {"name": cat_name_edited}
+    to_update = {"name": cat_name_edited, "balance": cat_balance_edited}
     updated_id = cat.update(_id, to_update)
     return jsonify({"updated_id": updated_id})
 
