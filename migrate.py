@@ -183,6 +183,10 @@ class Migrate:
         migration_files = [filename.split("/")[-1] for filename in migration_files_path]
         return migration_files
 
+    def show(self):
+        query = "SELECT migration FROM migrations.migrated;"
+        print("\n".join(self.execute_query(query)))
+
 
 if __name__ == "__main__":
     args = sys.argv[1:]
