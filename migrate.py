@@ -48,7 +48,8 @@ class Migrate:
         migration_files = self.get_files_in_dir(self.migrations_dir)
 
         for migration_file in migration_files:
-            self.run_migration(self.migrations_dir, migration_file, db_init)
+            if not migration_file.startswith("_"):
+                self.run_migration(self.migrations_dir, migration_file, db_init)
 
     def deploy(self):
         deploy_dir = f"{self.migrations_dir}/deploy"
@@ -79,9 +80,10 @@ class Migrate:
             cmd = f"touch {migration_path}"
             rc, o, e = execute(cmd)
             assert not rc, e
+        self.add_to_changes(f"{migration_name}.sql")
 
     def remove(self, migration_name):
-        # TODO if in migrations.plan - firstly revert the migration
+        # TODO if in migrations.plan - firstly revert the migration (to the point)
         migration_paths = [f"migrations/deploy/{migration_name}.sql", f"migrations/revert/{migration_name}.sql"]
         for migration_path in migration_paths:
             cmd = f"rm {migration_path}"
@@ -91,6 +93,18 @@ class Migrate:
     def add_to_plan(self, filename):
         sql = f"INSERT INTO migrations.plan VALUES ('{filename}')"
         self.execute_query(sql)
+
+    def add_to_changes(self, filename):
+        sql1 = "SELECT apply_order + 1 AS next_value FROM migrations.changes ORDER BY apply_order DESC LIMIT 1;"
+        cmd = f"psql {database} -c \"{sql1}\" | tail -n +3| head -n -2 | awk \'{{print $1}}\'"
+        rc, o, e = execute(cmd)
+        assert not rc, e
+        if len(o) == 0:
+            o = 0
+        else:
+            o = int(o[0])
+        sql2 = f"INSERT INTO migrations.changes VALUES ('{filename}', {o});"
+        self.execute_query(sql2)
 
     def remove_from_plan(self, filename):
         sql = f"DELETE FROM migrations.plan WHERE migration = '{filename}'"
@@ -103,8 +117,6 @@ class Migrate:
         return o
 
     def run_migration(self, directory, filename, database):
-        if filename.startswith("_"):
-            return
         cmd = f"psql {database} < {directory}/{filename}"
         rc, o, e = execute(cmd)
         self.logger.info(f"Run Migration - {filename}")
@@ -123,6 +135,13 @@ class Migrate:
             self.logger.info(f"Entry {filename} exists")
             return True
         return False
+
+    def drop(self):
+        if input("Are you sure? Y/N :").lower() == "y":
+            migration_files = self.get_files_in_dir(self.migrations_dir)
+            for migration_file in migration_files:
+                if migration_file.startswith("_"):
+                    self.run_migration(self.migrations_dir, migration_file, db_init)
 
     def list_databases(self):
         cmd = "psql --list | tail -n +4| head -n -2 | awk '{print $1}' | sed 's/|//'"
