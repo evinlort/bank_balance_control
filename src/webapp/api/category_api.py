@@ -44,6 +44,14 @@ def edit_category(_id: str):
     return jsonify({"updated_id": updated_id})
 
 
+@api.route('/category/<int:_id>', methods=["GET"])
+@login_required
+def fetch_category(_id: int):
+    cat = Category(db)
+    category = cat.get_by_id(_id=_id)
+    return jsonify({"category": category})
+
+
 @api.route('/edit/categories', methods=["GET"])
 @login_required
 def edit_categories():

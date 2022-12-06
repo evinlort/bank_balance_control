@@ -50,7 +50,7 @@ class BaseModel:
         fetch = self.db.cursor.fetchone()
         if fetch is None:
             return {}
-        return fetch
+        return dict(fetch)
 
     def get_by_column(self, column_name: str, column_value: str) -> list:
         query = sql.SQL("""
