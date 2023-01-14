@@ -1,5 +1,5 @@
 import time
-from typing import Union, List
+from typing import Union, List, Optional
 
 import psycopg2.errors
 from psycopg2 import sql
@@ -28,7 +28,7 @@ class BaseModel:
         query = sql.SQL("""
                 SELECT * FROM {};
             """.format(self.table)
-        )
+                        )
 
         self.logger.info(self.db.cursor.mogrify(query))
         self.db.cursor.execute(query)
@@ -52,14 +52,17 @@ class BaseModel:
             return {}
         return dict(fetch)
 
-    def get_by_column(self, column_name: str, column_value: str) -> list:
-        query = sql.SQL("""
+    def get_by_column(self, column_name: str, column_value: str, order_by: Optional[str] = "id",
+                      order_dir: Optional[str] = "ASC") -> list:
+        query = sql.SQL(
+            """
                 SELECT * FROM {}
-                WHERE {} = %s;
-        """.format(self.table, column_name)
-                        )
+                WHERE {} = %s
+                ORDER BY {} {};
+            """.format(self.table, column_name, order_by, order_dir, )
+        )
 
-        params = (column_value,)
+        params = (column_value, )
         self.logger.info(self.db.cursor.mogrify(query, params))
         self.db.cursor.execute(query, params)
         fetch = self.db.cursor.fetchall()

@@ -3,7 +3,9 @@
 <div class="container">
         {% for category in params.categories %}
         <div class="row my-1" id="cat_name_{{ category.name|e }}">
-            <input type="hidden" id="current_id_{{ category.id|e }}" value="{{ category.id|e }}" />
+            <div>
+                <input type="hidden" id="current_id_{{ category.id|e }}" value="{{ category.id|e }}" />
+            </div>
             <div class="col-4">
                 <span>Category name: </span><input name="category_name" type="text" value="{{ category.name|e }}" />
             </div>
