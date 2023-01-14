@@ -50,14 +50,3 @@ def fetch_category(_id: int):
     cat = Category(db)
     category = cat.get_by_id(_id=_id)
     return jsonify({"category": category})
-
-
-@api.route('/edit/categories', methods=["GET"])
-@login_required
-def edit_categories():
-    cat = Category(db)
-    logger.error(current_user.__dict__)
-    categories = cat.get_all_family_categories(family_id=current_user.family_id)
-    logger.info(categories)
-    params = {"categories": categories}
-    return render_template("/category/category.html", params=params)
