@@ -10,6 +10,12 @@ $(".save_edited_category").on("click", e => {
         return false
     }
 
+    if(category_balance === "") {
+        $(inputs_array[2]).val("")
+        toast_warning("Balance can't be empty or not a number", () => $(inputs_array[2]).focus())
+        return false
+    }
+
     $.patch(
         "/api/category/" + category_id,
         JSON.stringify({"category_name": category_name, "category_balance": category_balance}),
