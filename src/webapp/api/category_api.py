@@ -39,6 +39,7 @@ def edit_category(_id: str):
     if "category_balance" in req_json:
         cat_balance_edited = request.get_json()["category_balance"]
     cat = Category(db)
+    # TODO: If balance have been changed - save the previous into history_of_balances table (Check the GDoc - https://docs.google.com/document/d/1rbyjtXea9o4U7WFt91meBLjQ8dyZ4QKxORpReZ-AiMg/edit#bookmark=id.4p4xuzcvodtz)
     to_update = {"name": cat_name_edited, "balance": cat_balance_edited}
     updated_id = cat.update(_id, to_update)
     return jsonify({"updated_id": updated_id})
