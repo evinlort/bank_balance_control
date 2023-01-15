@@ -13,7 +13,7 @@ $(".save_edited_category").on("click", e => {
 
     if(category_balance === "") {
         $(inputs_array[2]).val("")
-        toast_warning("Balance can't be empty or not a number", () => $(inputs_array[2]).focus())
+        toast_warning("Balance can't be empty or not a number", () => reload_cat_balance(start_point, $(inputs_array[2])))
         return false
     }
 
@@ -35,6 +35,14 @@ reload_cat_name = (start_point, cat_name_element) => {
     var category_id = $(start_point.find("input")[0]).val()
     $.get("/api/category/" + category_id, data => {
         cat_name_element.val(data.category.name)
+        cat_name_element.focus()
+    })
+}
+
+reload_cat_balance = (start_point, cat_name_element) => {
+    var category_id = $(start_point.find("input")[0]).val()
+    $.get("/api/category/" + category_id, data => {
+        cat_name_element.val(data.category.balance)
         cat_name_element.focus()
     })
 }
