@@ -1,4 +1,5 @@
 $(".save_edited_category").on("click", e => {
+    e.stopPropagation()
     var start_point = $(e.target).parent().parent()
     var inputs_array = $(e.target).parent().parent().find("div").find("input")
     var category_id = $(inputs_array[0]).val()
@@ -6,7 +7,7 @@ $(".save_edited_category").on("click", e => {
     var category_balance = $(inputs_array[2]).val()
 
     if ($(inputs_array[1]).val().replace(/\s/g, "") === "") {
-        reload_cat_name(start_point, $(inputs_array[1]))
+        toast_warning("Category name can't be empty", () => reload_cat_name(start_point, $(inputs_array[1])))
         return false
     }
 
@@ -34,5 +35,6 @@ reload_cat_name = (start_point, cat_name_element) => {
     var category_id = $(start_point.find("input")[0]).val()
     $.get("/api/category/" + category_id, data => {
         cat_name_element.val(data.category.name)
+        cat_name_element.focus()
     })
 }

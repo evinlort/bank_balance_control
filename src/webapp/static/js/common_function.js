@@ -18,8 +18,7 @@ toast = (message, style, title, callback) => {
     toastLiveExample.addEventListener('hide.bs.toast', () => $("#liveToast").removeClass("bg-" + style))
 
     if (typeof(callback) === "function") {
-        toastLiveExample.addEventListener('hidden.bs.toast', () => callback())
-        toastLiveExample.removeEventListener('hidden.bs.toast', () => callback())
+        toastLiveExample.addEventListener('hidden.bs.toast', () => callback(), {"once": true})
     }
 }
 
