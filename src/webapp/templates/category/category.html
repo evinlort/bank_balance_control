@@ -1,25 +1,35 @@
 {% extends "base.html" %}
 {% block page_body %}
-<div class="container">
-        {% for category in params.categories %}
+    <div class="container">
+        <div class="row my-1">
+            <div class="col-4 border border-right">
+                <span>Category name: </span>
+            </div>
+            <div class="col-4 border border-right">
+                <span>Category balance: </span>
+            </div>
+            <div class="col-4 border border-right">
+            </div>
+        </div>
+    {% for category in params.categories %}
         <div class="row my-1" id="cat_name_{{ category.name|e }}">
             <div>
                 <input type="hidden" id="current_id_{{ category.id|e }}" value="{{ category.id|e }}" />
             </div>
-            <div class="col-4">
-                <span>Category name: </span><input name="category_name" type="text" value="{{ category.name|e }}" />
+            <div class="col-4 border border-right">
+                <input class="form-control text-center" name="category_name" type="text" value="{{ category.name|e }}" />
             </div>
-            <div class="col-4">
-                <span>Category balance: </span><input class="text-center" name="category_balance" type="number" value="{{ category.balance }}"/>
+            <div class="col-4 border border-right">
+                <input class="text-center form-control" name="category_balance" type="number" value="{{ category.balance }}"/>
             </div>
-            <div class="col-4">
-                <button class="save_edited_category text-start">Save</button>
+            <div class="col-4 border border-right position-relative">
+                <button class="save_edited_category text-start position-absolute top-50 translate-middle">Save</button>
             </div>
         </div>
-        {% endfor %}
+    {% endfor %}
     </div>
-    {% endblock %}
+{% endblock %}
 
-    {% block javascript %}
-        {% include  "category/category.js" %}
-    {% endblock %}
+{% block javascript %}
+    {% include  "category/category.js" %}
+{% endblock %}
