@@ -10,5 +10,6 @@ from .balance import Balance
 from .family import Family
 from .means_of_payment import MeansOfPayment
 from .purchase import Purchase
+from .history_of_balance import HistoryOfBalance
 
 
