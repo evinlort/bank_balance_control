@@ -178,7 +178,7 @@ class Migrate:
         print("\n".join(table_names))
 
     def get_files_in_dir(self, directory):
-        cmd = f'find {directory} -maxdepth 1 -not -type d -printf "%T@ %Tc %p\n" | sort -n| awk \'{{print $7}}\''
+        cmd = f'find {directory} -maxdepth 1 -not -type d -printf "%T@ %Tc %p\n" | sort -n'
         _, migration_files_path, _ = execute(cmd)
         migration_files = [filename.split("/")[-1] for filename in migration_files_path]
         return migration_files
