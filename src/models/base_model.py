@@ -1,5 +1,5 @@
 import time
-from typing import Union, List
+from typing import Union, List, Optional
 
 import psycopg2.errors
 from psycopg2 import sql
@@ -28,7 +28,7 @@ class BaseModel:
         query = sql.SQL("""
                 SELECT * FROM {};
             """.format(self.table)
-        )
+                        )
 
         self.logger.info(self.db.cursor.mogrify(query))
         self.db.cursor.execute(query)
@@ -50,16 +50,19 @@ class BaseModel:
         fetch = self.db.cursor.fetchone()
         if fetch is None:
             return {}
-        return fetch
+        return dict(fetch)
 
-    def get_by_column(self, column_name: str, column_value: str) -> list:
-        query = sql.SQL("""
+    def get_by_column(self, column_name: str, column_value: str, order_by: Optional[str] = "id",
+                      order_dir: Optional[str] = "ASC") -> list:
+        query = sql.SQL(
+            """
                 SELECT * FROM {}
-                WHERE {} = %s;
-        """.format(self.table, column_name)
-                        )
+                WHERE {} = %s
+                ORDER BY {} {};
+            """.format(self.table, column_name, order_by, order_dir, )
+        )
 
-        params = (column_value,)
+        params = (column_value, )
         self.logger.info(self.db.cursor.mogrify(query, params))
         self.db.cursor.execute(query, params)
         fetch = self.db.cursor.fetchall()
@@ -75,8 +78,11 @@ class BaseModel:
             for col in raw_table_columns:
                 if self.get_type_by_column_name(col) == "timestamp":
                     continue
+                if self.get_type_by_column_name(col) == "numeric":
+                    if col not in data_to_save:
+                        data_to_save[col] = 0
                 to_insert_columns.append(col)
-                to_save_values.append(str(data_to_save[col] if col in data_to_save else "NULL"))
+                to_save_values.append(str(data_to_save[col]) if col in data_to_save else 'NULL')
 
             self.logger.info(to_save_values)
 
@@ -90,7 +96,7 @@ class BaseModel:
                         sql.Placeholder() * len(to_save_values)
                     ).as_string(self.db.cursor)
                 ))
-            self.logger.info(query)
+            self.logger.info(self.db.cursor.mogrify(query, to_save_values))
             self.db.cursor.execute(query, to_save_values)
             self.db.connection.commit()
             fetch = self.db.cursor.fetchone()
@@ -101,6 +107,11 @@ class BaseModel:
             self.db.connection.rollback()
             self.logger.error(str(pg_uniq))
             return -1
+        except psycopg2.errors.InvalidTextRepresentation as itr:
+            if "invalid input syntax for type" in str(itr) and '"None"' in str(itr):
+                self.db.connection.rollback()
+                self.logger.error("There is NULL value given for the 'not null' field")
+                return -2
 
     @validate_attributes
     def update(self, _id: str, data: dict) -> int:
@@ -116,7 +127,7 @@ class BaseModel:
         self.db.cursor.execute(query)
         for column in self.db.cursor.description:
             if column[0] == column_name:
-                return self.get_type_code_name(column[1])
+                return self.get_type_code_name(column[1]).lower()
 
     def get_type_code_name(self, type_code: Union[int, str]) -> str:
         query = sql.SQL("SELECT typname FROM pg_type WHERE oid = %s")

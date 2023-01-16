@@ -50,7 +50,7 @@ CREATE TABLE IF NOT EXISTS purchases (
     user_id INTEGER NOT NULL,
     date DATE NOT NULL,
     creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    sum MONEY NOT NULL,
+    sum NUMERIC NOT NULL,
     means_of_payment_id INTEGER NOT NULL,
     comment TEXT,
     number_of_payments SMALLINT NOT NULL DEFAULT 1,

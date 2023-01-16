@@ -5,17 +5,26 @@ capitalize_first_letter = (string) => string.charAt(0).toUpperCase() + string.sl
 var toastLiveExample = document.getElementById('liveToast')
 var _toast = new bootstrap.Toast(toastLiveExample)
 
-toast = (message, style, title) => {
-    title = title !== undefined ? title : style
+toast = (message, style, title, callback) => {
+    if (typeof(title) === "function" && !callback) {
+        callback = title
+        title = null
+    }
+    title = title ? title : style
     $("#toast_message").text(message)
     $("#toast_title").text(capitalize_first_letter(title))
     $("#liveToast").addClass("bg-" + style)
     _toast.show()
+    toastLiveExample.addEventListener('hide.bs.toast', () => $("#liveToast").removeClass("bg-" + style))
+
+    if (typeof(callback) === "function") {
+        toastLiveExample.addEventListener('hidden.bs.toast', () => callback(), {"once": true})
+    }
 }
 
-toast_success = (message, title) => toast(message, "success", title)
-toast_warning = (message, title) => toast(message, "warning", title)
-toast_danger = (message, title) => toast(message, "danger", title)
+toast_success = (message, title, callback) => toast(message, "success", title, callback)
+toast_warning = (message, title, callback) => toast(message, "warning", title, callback)
+toast_danger = (message, title, callback) => toast(message, "danger", title, callback)
 
 disable_children_elements = (parent_element) => {
         for (const element of parent_element.children()) {
