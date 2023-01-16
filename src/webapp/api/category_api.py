@@ -6,7 +6,7 @@ from src.config import logger
 from . import api
 
 from src.models import (
-    db, Category
+    db, Category, HistoryOfBalance
 )
 
 
@@ -32,6 +32,7 @@ def add_category():
 @api.route('/category/<_id>', methods=["PATCH"])
 @login_required
 def edit_category(_id: str):
+    _id = int(_id)
     cat_balance_edited = 0
 
     req_json = request.get_json()
@@ -39,7 +40,12 @@ def edit_category(_id: str):
     if "category_balance" in req_json:
         cat_balance_edited = request.get_json()["category_balance"]
     cat = Category(db)
-    # TODO: If balance have been changed - save the previous into history_of_balances table (Check the GDoc - https://docs.google.com/document/d/1rbyjtXea9o4U7WFt91meBLjQ8dyZ4QKxORpReZ-AiMg/edit#bookmark=id.4p4xuzcvodtz)
+    category = cat.get_by_id(_id)
+
+    # https://docs.google.com/document/d/1rbyjtXea9o4U7WFt91meBLjQ8dyZ4QKxORpReZ-AiMg/edit#bookmark=id.4p4xuzcvodtz)
+    history_of_balance = HistoryOfBalance(db)
+    history_of_balance.save({"category_id": _id, "previous_balance": category["balance"]})
+
     to_update = {"name": cat_name_edited, "balance": cat_balance_edited}
     updated_id = cat.update(_id, to_update)
     return jsonify({"updated_id": updated_id})
