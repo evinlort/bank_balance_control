@@ -1,4 +1,5 @@
 $("#confirm_payment").on("click", (e) => {
+    var button = $(e.target)
     var purchase_data = {
         sum: $("#sum").val(),
         category: $("#category_id").val(),
@@ -8,6 +9,8 @@ $("#confirm_payment").on("click", (e) => {
         comment: $("#comment").val()
     }
     if (is_not_empty(purchase_data)) {
+        button.addClass("disabled")
+
         $.post("api/purchase", purchase_data, response => {
             $("#sum").val("")
             $("#category_name").val("")
@@ -21,8 +24,9 @@ $("#confirm_payment").on("click", (e) => {
             $("#date").val("")
             $("#datepicker").datepicker("setDate", '+0d')
             $("#comment").val("")
-
             toast_success("Purchase successfully saved", "Payment saved")
+
+            button.removeClass("disabled")
         }, "json")
     }
 })
