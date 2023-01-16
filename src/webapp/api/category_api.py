@@ -41,10 +41,12 @@ def edit_category(_id: str):
         cat_balance_edited = request.get_json()["category_balance"]
     cat = Category(db)
     category = cat.get_by_id(_id)
+    prev_balance = category["balance"]
 
     # https://docs.google.com/document/d/1rbyjtXea9o4U7WFt91meBLjQ8dyZ4QKxORpReZ-AiMg/edit#bookmark=id.4p4xuzcvodtz)
-    history_of_balance = HistoryOfBalance(db)
-    history_of_balance.save({"category_id": _id, "previous_balance": category["balance"]})
+    if prev_balance:
+        history_of_balance = HistoryOfBalance(db)
+        history_of_balance.save({"category_id": _id, "previous_balance": prev_balance})
 
     to_update = {"name": cat_name_edited, "balance": cat_balance_edited}
     updated_id = cat.update(_id, to_update)
