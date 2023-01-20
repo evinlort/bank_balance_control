@@ -21,6 +21,7 @@ CREATE TABLE IF NOT EXISTS means_of_payments (
 
 CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
+    email VARCHAR(70) UNIQUE NOT NULL,
     username VARCHAR(50) UNIQUE,
     fname VARCHAR(50) NOT NULL,
     lname VARCHAR(50) NOT NULL,

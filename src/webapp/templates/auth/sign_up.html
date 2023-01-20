@@ -3,7 +3,7 @@
 {% block auth_page_body %}
 
     <div class="row">
-        <div class="col text-center">Login Page</div>
+        <div class="col text-center">Sign Up Page</div>
     </div>
     <div class="row">
         <div class="mb-3">
@@ -19,14 +19,7 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="col">
-            <a href="{{ url_for('auth.sign_up') }}">Sign Up</a>
-        </div>
-    </div>
-
 {% endblock %}
 
 {% block javascript %}
-    {% include  "auth/auth.js" %}
 {% endblock %}
