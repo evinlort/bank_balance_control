@@ -7,12 +7,54 @@
     </div>
     <div class="row">
         <div class="mb-3">
+            <label for="email" class="form-label">Email:</label>
+            <input type="text" class="form-control input-group " id="email" placeholder="john.doe@xxx.xxx">
+        </div>
+        <div class="mb-3">
+            <label for="fname" class="form-label">First name:</label>
+            <input type="text" class="form-control input-group " id="fname" placeholder="John">
+        </div>
+        <div class="mb-3">
+            <label for="lname" class="form-label">Last name:</label>
+            <input type="text" class="form-control input-group " id="lname" placeholder="Doe">
+        </div>
+        <div class="mb-3">
             <label for="username" class="form-label">Username:</label>
-            <input type="text" class="form-control input-group " id="username" placeholder="John Doe">
+            <input type="text" class="form-control" id="username" placeholder="john_doe">
         </div>
         <div class="mb-3">
             <label for="password" class="form-label">Password:</label>
             <input type="password" class="form-control" id="password" placeholder="Password">
+        </div>
+        <div class="mb-3">
+            <label for="password_confirm" class="form-label">Confirm password:</label>
+            <input type="password" class="form-control" id="password_confirm" placeholder="Confirm password">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Gender:</label>
+            <div class="form-check">
+                <input type="radio" id="male" class="form-check-input" name="gender" value="male"><label for="male" class="form-label">Male:</label>
+            </div>
+            <div class="form-check">
+                <input type="radio" id="female" class="form-check-input" name="gender" value="female"><label for="female" class="form-label">Female:</label>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="day_of_birth" class="form-label">Day of birth:</label>
+            <input class="form-control" id="day_of_birth_parsed" autocomplete="off" inputmode="none">
+            <input type="hidden" id="day_of_birth">
+        </div>
+        <div class="mb-3">
+            <label for="language" class="form-label">Language:</label>
+            <select class="form-control" id="language">
+                <option>English</option>
+                <option>Russian</option>
+                <option>Hebrew</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="family" class="form-label">Family:</label>
+            <input type="text" class="form-control" id="family">
         </div>
         <div class="mb-3 text-center">
             <button type="submit" id="login_button" class="btn btn-primary mb-3">Login</button>
@@ -22,4 +64,5 @@
 {% endblock %}
 
 {% block javascript %}
+    {% include  "auth/sign_up.js" %}
 {% endblock %}
