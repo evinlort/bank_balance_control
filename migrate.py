@@ -2,7 +2,7 @@
 import os
 import subprocess
 import sys
-import logging
+from src.config import logger
 
 import psutil
 
@@ -34,13 +34,14 @@ def execute(cmd: str):
 
 class Migrate:
     def __init__(self):
-        self.logger = logging.getLogger()
-        self.logger.setLevel(logging.DEBUG)
-        handler = logging.StreamHandler(sys.stdout)
-        handler.setLevel(logging.DEBUG)
-        formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(filename)s:%(funcName)s:%(lineno)s - %(message)s')
-        handler.setFormatter(formatter)
-        self.logger.addHandler(handler)
+        self.logger = logger
+        # self.logger = logging.getLogger()
+        # self.logger.setLevel(logging.DEBUG)
+        # handler = logging.StreamHandler(sys.stdout)
+        # handler.setLevel(logging.DEBUG)
+        # formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(filename)s:%(funcName)s:%(lineno)s - %(message)s')
+        # handler.setFormatter(formatter)
+        # self.logger.addHandler(handler)
 
         self.migrations_dir = "migrations"
 

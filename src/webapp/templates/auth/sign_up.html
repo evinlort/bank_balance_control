@@ -8,7 +8,14 @@
     <div class="row">
         <div class="mb-3">
             <label for="email" class="form-label">Email:</label>
-            <input type="text" class="form-control input-group " id="email" placeholder="john.doe@xxx.xxx">
+            <div class="row">
+                <div class="col-11">
+                    <input required type="email" class="form-control input-group " id="email" placeholder="john.doe@xxx.xxx" autofocus autocomplete="off" title="Email is required">
+                </div>
+                <div class="col-1">
+                    <small class="text-danger" title="Required">*</small>
+                </div>
+            </div>
         </div>
         <div class="mb-3">
             <label for="fname" class="form-label">First name:</label>

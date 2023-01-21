@@ -22,12 +22,12 @@ CREATE TABLE IF NOT EXISTS means_of_payments (
 CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
     email VARCHAR(70) UNIQUE NOT NULL,
-    username VARCHAR(50) UNIQUE,
+    username VARCHAR(50) UNIQUE NOT NULL,
     fname VARCHAR(50) NOT NULL,
     lname VARCHAR(50) NOT NULL,
     gender_id INTEGER,
     day_of_birth DATE,
-    password_hash text DEFAULT NULL,
+    password_hash text NOT NULL,
     language_id INTEGER DEFAULT NULL,
     family_id INTEGER DEFAULT NULL,
 
