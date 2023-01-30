@@ -8,3 +8,11 @@ $("#day_of_birth_parsed").datepicker({
     dateFormat: "dd/mm/yy",
     yearRange: "c-120:c+0"
 }).datepicker('setDate', '+0d')
+
+$("#email").on("blur", (e) => {
+    var email = $(e.target)
+    if (!validate_email(email.val())) {
+        toast_warning("Please correct the email", "Not valid email.", () => select_input(email))
+        email.focus()
+    }
+})
