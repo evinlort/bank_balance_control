@@ -21,3 +21,9 @@ $("#email").on("blur", (e) => {
         username.val(email_address.slice(0, email_address.indexOf("@")))
     }
 })
+
+$("#password_confirm").on("blur", (e) => {
+    var password_confirm = $(e.target)
+    var password = $("#password")
+
+})
