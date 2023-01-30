@@ -13,6 +13,11 @@ $("#email").on("blur", (e) => {
     var email = $(e.target)
     if (!validate_email(email.val())) {
         toast_warning("Please correct the email", "Not valid email.", () => select_input(email))
-        email.focus()
+        return false
+    }
+    var username = $("#username")
+    if (!username.val()) {
+        let email_address = email.val()
+        username.val(email_address.slice(0, email_address.indexOf("@")))
     }
 })
