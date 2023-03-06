@@ -51,6 +51,10 @@ select_input = element => {
     element.select()
 }
 
+clear_input = element => {
+    element.val("")
+}
+
 $.put = (url, data, callback, type) => {
     if ( $.isFunction(data) ){
         type = type || callback,
