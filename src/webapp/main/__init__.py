@@ -3,5 +3,6 @@ main = Blueprint('main', __name__)
 from .views import (  # noqa
     home,
     test,
-    category
+    category,
+    purchase,
 )
