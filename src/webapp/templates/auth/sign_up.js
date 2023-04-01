@@ -38,6 +38,18 @@ $("#signup_button").on("click submit", (e) => {
         return false
     }
 
+    var request={};
+    for(const i of $("input")){
+        request[$(i).prop("name")] = $(i).val();
+    }
+    $.post("new_user", request, response => {
+        if(response == -1) {
+            toast_warning("User with same email is already exists.", "User exists")
+        }
+        else if(response > 0) {
+            toast_success("User successfully saved.", "User saved")
+        }
+    })
 })
 
 is_mandatory_filled = () => {
