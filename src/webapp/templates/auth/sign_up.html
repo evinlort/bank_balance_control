@@ -1,0 +1,134 @@
+{% extends "auth_base.html" %}
+
+{% block auth_page_body %}
+
+    <div class="row">
+        <div class="col text-center">Sign Up Page</div>
+    </div>
+    <div class="row">
+        <div class="mb-3">
+            <label for="email" class="form-label">Email:</label>
+            <div class="row">
+                <div class="col-11">
+                    <input required type="email" class="form-control input-group " id="email" name="email" placeholder="john.doe@xxx.xxx" autocomplete="off" title="Email is required">
+                </div>
+                <div class="col-1">
+                    <small class="text-danger large-bold-text" title="Required">*</small>
+                </div>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="fname" class="form-label">First name:</label>
+            <div class="row">
+                <div class="col-11">
+                    <input type="text" class="form-control input-group " id="fname" name="fname" placeholder="John">
+                </div>
+                <div class="col-1">
+                </div>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="lname" class="form-label">Last name:</label>
+            <div class="row">
+                <div class="col-11">
+                    <input type="text" class="form-control input-group " id="lname" name="lname" placeholder="Doe">
+                </div>
+                <div class="col-1">
+                </div>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="username" class="form-label">Username:</label>
+            <div class="row">
+                <div class="col-11">
+                    <input type="text" class="form-control" id="username" name="username" placeholder="john_doe">
+                </div>
+                <div class="col-1">
+                    <small class="text-danger large-bold-text" title="Required">*</small>
+                </div>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">Password:</label>
+            <div class="row">
+                <div class="col-11">
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                </div>
+                <div class="col-1">
+                    <small class="text-danger large-bold-text" title="Required">*</small>
+                </div>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="password_confirm" class="form-label">Confirm password:</label>
+            <div class="row">
+                <div class="col-11">
+                    <input type="password" class="form-control" id="password_confirm" name="password_confirm" placeholder="Confirm password">
+                </div>
+                <div class="col-1">
+                </div>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Gender:</label>
+            <div class="row">
+                <div class="col-11">
+                    <div class="form-check">
+                        <input type="radio" id="male" class="form-check-input" name="gender" value="male"><label for="male" class="form-label">Male:</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="radio" id="female" class="form-check-input" name="gender" value="female"><label for="female" class="form-label">Female:</label>
+                    </div>
+                </div>
+                <div class="col-1">
+                </div>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="day_of_birth" class="form-label">Day of birth:</label>
+            <div class="row">
+                <div class="col-11">
+                    <input class="form-control" id="day_of_birth_parsed" autocomplete="off" inputmode="none">
+                    <input type="hidden" id="day_of_birth" name="day_of_birth">
+                </div>
+                <div class="col-1">
+                    <small class="text-danger large-bold-text" title="Required">*</small>
+                </div>
+            </div>
+        </div>
+        <!-- Languages are not in design -->
+        <!--<div class="mb-3">
+            <label for="language" class="form-label">Language:</label>
+            <select class="form-control" id="language">
+                <option>English</option>
+                <option>Russian</option>
+                <option>Hebrew</option>
+            </select>
+        </div>-->
+        <div class="mb-3">
+            <label for="family" class="form-label">Family:</label>
+            <div class="row">
+                <div class="col-11">
+                    <input type="text" class="form-control" id="family" name="family">
+                </div>
+                <div class="col-1">
+<!--                    <small class="text-danger large-bold-text" title="Required">*</small>-->
+                </div>
+            </div>
+        </div>
+        <div class="mb-3 text-center">
+            <div class="row">
+                <div class="col-11">
+                    <button type="submit" id="signup_button" class="btn btn-primary mb-3">Sign Up</button>
+                </div>
+                <div class="col-1">
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascript %}
+    {% include  "auth/sign_up.js" %}
+{% endblock %}

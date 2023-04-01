@@ -4,9 +4,11 @@ from flask import Flask
 from flask_login import LoginManager
 from flask_session import Session
 
-from src.db_connect import DBConnect
+assert os.getenv("DATABASE", "") != "", "No DATABASE was set"
 
+from src.db_connect import DBConnect
 db = DBConnect()
+
 login_manager = LoginManager()
 
 

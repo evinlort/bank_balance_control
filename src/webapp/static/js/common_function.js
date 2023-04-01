@@ -40,6 +40,21 @@ enable_children_elements = (parent_element) => {
     }
 }
 
+validate_email = mail => {
+    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,})+$/.test(mail)) {
+        return true
+    }
+    return false
+}
+
+select_input = element => {
+    element.select()
+}
+
+clear_input = element => {
+    element.val("")
+}
+
 $.put = (url, data, callback, type) => {
     if ( $.isFunction(data) ){
         type = type || callback,

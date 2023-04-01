@@ -82,7 +82,7 @@ class BaseModel:
                     if col not in data_to_save:
                         data_to_save[col] = 0
                 to_insert_columns.append(col)
-                to_save_values.append(str(data_to_save[col]) if col in data_to_save else 'NULL')
+                to_save_values.append(str(data_to_save[col]) if col in data_to_save else None)
 
             self.logger.info(to_save_values)
 
