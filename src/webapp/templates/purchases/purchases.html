@@ -2,7 +2,11 @@
 
 {% block page_body %}
 
-Mock text
+{% for purchase in params["purchases"] %}
+    <div>
+        {{ purchase.category.name }}
+    </div>
+{% endfor %}
 
 {% endblock %}
 
