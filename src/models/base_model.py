@@ -27,10 +27,9 @@ class BaseModel:
     def get_all(self) -> list:
         query = sql.SQL("""
                 SELECT * FROM {};
-            """.format(self.table)
-                        )
+            """.format(self.table))
 
-        self.logger.info(self.db.cursor.mogrify(query))
+        self.logger.debug(self.db.cursor.mogrify(query))
         self.db.cursor.execute(query)
         fetch = self.db.cursor.fetchall()
         if fetch is None:
