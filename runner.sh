@@ -4,7 +4,7 @@
 export -p | grep DIR > /dev/null
 if [ $(echo $?) -eq 0 ]
 then
-  echo "DIR";
+  echo "$DIR";
 else
   exit 1
 fi
