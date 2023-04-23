@@ -7,6 +7,9 @@ class Purchase(BaseModel):
     def get_table():
         return "purchases"
 
+    def get_by_month_number(self, month_number: int):
+        pass
+
     def save(self, purchase_data):
         if int(purchase_data["number_of_payments"]) > 1:
             monthly_sums = calculate_monthly_sums(

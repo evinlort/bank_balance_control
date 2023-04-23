@@ -21,6 +21,9 @@ def show_purchases():
     if this_user["family_id"]:
         this_user["family_members"] = User(db).get_by_column("family_id", this_user["family_id"])
 
+    current_date = datetime.datetime.now()
+    logger.debug(current_date)
+
     purchases = purchase.get_all()
     add_object_by_name(db, "means_of_payment", purchases)
     add_object_by_name(db, "category", purchases)
@@ -34,5 +37,4 @@ def show_purchases():
         "month": month_name,
         "current_user": this_user,
     }
-    logger.debug(this_user)
     return render_template("/purchases/purchases.html", params=params)

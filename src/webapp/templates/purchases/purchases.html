@@ -2,9 +2,46 @@
 
 {% block page_body %}
 
+<div class="row">
+    <div class="col-5"></div>
+    <div class="col-2">
+        <select name="show_for_user" id="show_for_user">
+            {% for member in params.current_user.family_members %}
+                <option
+                {% if member.id == params.current_user.id %}
+                selected
+                {% endif %}
+                value="{{ member.id }}"
+                ><span class="bold">{{ member.fname }} {{ member.lname }}</span></option>
+            {% endfor %}
+        </select>
+        </div>
+    <div class="col-5"></div>
+</div>
+
+<div class="row">
+    <div class="col-4"></div>
+    <div class="col-1" id="show_previous_month"><<</div>
+    <div class="col-2">Month: <span class="bold">{{ params.month }}</span></div>
+    <div class="col-1" id="show_next_month">>></div>
+    <div class="col-4"></div>
+</div>
+
 {% for purchase in params["purchases"] %}
-    <div>
-        {{ purchase.category.name }}
+    <div class="row">
+        <div class="col">
+            {{ purchase.comment }}
+        </div>
+        <div class="col">
+            {{ purchase.date.strftime("%d/%m/%Y") }}
+        </div>
+        <div class="col">
+            {{ purchase.category.name }}
+        </div>
+        <div class="col">
+            {{ purchase.sum.replace("$", "") }}
+        </div>
+
     </div>
 {% endfor %}
 
