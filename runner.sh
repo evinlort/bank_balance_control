@@ -1,7 +1,13 @@
 #!/bin/bash
 
 #DIR=$HOME
-DIR=$HOME/PycharmProjects
+export -p | grep DIR > /dev/null
+if [ $(echo $?) -eq 0 ]
+then
+  echo "DIR";
+else
+  exit 1
+fi
 APP=bank_balance_control
 
 export DEVELOPMENT=1
