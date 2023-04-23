@@ -1,4 +1,3 @@
-import time
 from typing import Union, List, Optional
 
 import psycopg2.errors
