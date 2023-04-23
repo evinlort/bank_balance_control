@@ -34,5 +34,5 @@ source "$DIR"/$APP/venv/bin/activate
 $(which python) -m pip install -r "$DIR"/$APP/requirements.txt
 #flask run --host=0.0.0.0 --port=8080
 
-#authbind gunicorn -w 1 -b 0.0.0.0:80 "src:app"
-authbind gunicorn -w 1 -b 0.0.0.0:8080 "src:app"
+authbind gunicorn -w 1 -b 0.0.0.0:80 "src:app"
+#authbind gunicorn -w 1 -b 0.0.0.0:8080 "src:app"
