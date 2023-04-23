@@ -45,6 +45,10 @@ html, body {
     font-size: xx-large;
 }
 
+.bold {
+    font-weight: 700;
+}
+
 #sum::-webkit-outer-spin-button,
 #sum::-webkit-inner-spin-button {
     -webkit-appearance: none;
