@@ -1,9 +1,9 @@
+import calendar
 import datetime
 
 from flask import render_template
 from flask_login import login_required, current_user
 
-from src.config import logger
 from src.helpers.models_helper import add_object_by_name
 from src.models import (
     db, Purchase, User,
@@ -22,9 +22,11 @@ def show_purchases():
         this_user["family_members"] = User(db).get_by_column("family_id", this_user["family_id"])
 
     current_date = datetime.datetime.now()
-    logger.debug(current_date)
+    month = current_date.month
+    year = current_date.year
+    month_last_day = calendar.monthrange(year, month)[1]
 
-    purchases = purchase.get_all()
+    purchases = purchase.get_by_month_and_year(month, year, month_last_day)
     add_object_by_name(db, "means_of_payment", purchases)
     add_object_by_name(db, "category", purchases)
     add_object_by_name(db, "user", purchases)
@@ -35,6 +37,7 @@ def show_purchases():
     params = {
         "purchases": purchases,
         "month": month_name,
+        "year": year,
         "current_user": this_user,
     }
     return render_template("/purchases/purchases.html", params=params)

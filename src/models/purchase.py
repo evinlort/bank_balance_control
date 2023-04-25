@@ -1,3 +1,5 @@
+from psycopg2 import sql
+
 from src.helpers.calculation_helpers import calculate_monthly_sums, calculate_next_month_date
 from src.models.base_model import BaseModel
 
@@ -7,8 +9,22 @@ class Purchase(BaseModel):
     def get_table():
         return "purchases"
 
-    def get_by_month_number(self, month_number: int):
-        pass
+    def get_by_month_and_year(self, month: int, year: int, month_last_day: int):
+        query = sql.SQL(
+            "SELECT * FROM {} WHERE date >= '%(year)s-%(month)s-01' AND date <= '%(year)s-%(month)s-%(month_last_day)s'".format(self.table)
+        )
+
+        data = {"year": year, "month": month, "month_last_day": month_last_day}
+        self.logger.debug(query)
+
+        self.logger.debug(self.db.cursor.mogrify(query, data))
+        self.db.cursor.execute(query, data)
+        self.db.connection.commit()
+        fetch = self.db.cursor.fetchall()
+        self.logger.debug(fetch)
+        if fetch is None:
+            return []
+        return self.convert(fetch)
 
     def save(self, purchase_data):
         if int(purchase_data["number_of_payments"]) > 1:
