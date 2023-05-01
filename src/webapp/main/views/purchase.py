@@ -39,5 +39,6 @@ def show_purchases():
         "month": month_name,
         "year": year,
         "current_user": this_user,
+        "total_sum": "{:.2f}".format(round(sum([float(item["sum"][1:]) for item in purchases]), 2)),
     }
     return render_template("/purchases/purchases.html", params=params)

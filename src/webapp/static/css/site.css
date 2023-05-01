@@ -49,6 +49,10 @@ html, body {
     font-weight: 700;
 }
 
+.dashed_bottom {
+    border-bottom: dashed 1px black;
+}
+
 #sum::-webkit-outer-spin-button,
 #sum::-webkit-inner-spin-button {
     -webkit-appearance: none;
