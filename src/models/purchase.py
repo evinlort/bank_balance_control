@@ -11,7 +11,12 @@ class Purchase(BaseModel):
 
     def get_by_month_and_year(self, month: int, year: int, month_last_day: int):
         query = sql.SQL(
-            "SELECT * FROM {} WHERE date >= '%(year)s-%(month)s-01' AND date <= '%(year)s-%(month)s-%(month_last_day)s'".format(self.table)
+            """
+            SELECT * FROM {} 
+            WHERE date >= '%(year)s-%(month)s-01' 
+            AND date <= '%(year)s-%(month)s-%(month_last_day)s'
+            ORDER BY date ASC
+            """.format(self.table)
         )
 
         data = {"year": year, "month": month, "month_last_day": month_last_day}
