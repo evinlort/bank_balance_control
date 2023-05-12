@@ -3,37 +3,40 @@
 {% block page_body %}
 
 <div class="row">
-    <div class="col-5"></div>
-    <div class="col-2">
+    <div class="col-lg-5 col-md-1"></div>
+    <div class="col-lg-2 col-md-10">
         <select name="show_for_user" id="show_for_user">
+            <option value="all">Whole family</option>
             {% for member in params.current_user.family_members %}
-                <option
-                {% if member.id == params.current_user.id %}
-                selected
-                {% endif %}
-                value="{{ member.id }}"
-                ><span class="bold">{{ member.fname }} {{ member.lname }}</span></option>
+                <option value="{{ member.id }}">{{ member.fname }} {{ member.lname }}</option>
             {% endfor %}
         </select>
         </div>
-    <div class="col-5"></div>
+    <div class="col-lg-5 col-md-1"></div>
+</div>
+
+<div class="row d-block d-sm-none">
+    <div class="col"><hr /></div>
 </div>
 
 <div class="row">
-    <div class="col-4"></div>
-    <div class="col-1" id="show_previous_month"><<</div>
-    <div class="col-2">Month: <span class="bold">{{ params.month }} {{ params.year }}</span></div>
-    <div class="col-1" id="show_next_month">>></div>
-    <div class="col-4"></div>
+    <div class="col-3 col-lg-5 text-end" id="show_previous_month"><<</div>
+    <div class="col-6 col-lg-2">Month: <span class="bold">{{ params.month }} {{ params.year }}</span></div>
+    <div class="col-3 col-lg-5 text-start" id="show_next_month">>></div>
 </div>
+
+<div class="row d-block d-sm-none">
+    <div class="col"><hr class="lh-lg text-danger" /></div>
+</div>
+
 <div class="row">
-    <div class="col">
+    <div class="col d-none d-sm-block">
         No.
     </div>
     <div class="col">
         Comment
     </div>
-    <div class="col">
+    <div class="col d-none d-sm-block">
         Date of purchase
     </div>
     <div class="col">
@@ -42,23 +45,23 @@
     <div class="col">
         Sum
     </div>
-    <div class="col">
+    <div class="col d-none d-sm-block">
         Payment of Payments
     </div>
-    <div class="col">
+    <div class="col d-none d-sm-block">
         Name
     </div>
 </div>
-<hr/>
+<hr />
 {% for purchase in params["purchases"] %}
-    <div class="row {{ 'dashed_bottom' if loop.index != params['purchases']|length else '' }}">
-        <div class="col">
+    <div class="row {{ 'dashed_bottom' if loop.index != params['purchases']|length else '' }}" data-bs-toggle="collapse" href="#collapse-purchase-{{ loop.index }}" role="button" aria-expanded="false" aria-controls="collapseExample">
+        <div class="col d-none d-sm-block">
             {{ loop.index }}
         </div>
         <div class="col">
             {{ purchase.comment }}
         </div>
-        <div class="col">
+        <div class="col d-none d-sm-block">
             {{ purchase.date.strftime("%d/%m/%Y") }}
         </div>
         <div class="col">
@@ -67,13 +70,29 @@
         <div class="col">
             {{ purchase.sum.replace("$", "") }}
         </div>
-        <div class="col">
+        <div class="col d-none d-sm-block">
             {{ purchase.payment_number }}/{{ purchase.number_of_payments }}
         </div>
-        <div class="col">
+        <div class="col d-none d-sm-block">
             {{ purchase.user.fname }}
         </div>
 
+    </div>
+    <div class="d-block d-sm-none">
+        <div class="collapse" id="collapse-purchase-{{ loop.index }}">
+            <div class="card card-body">
+                <div class="row">
+                    <div class="col-4">Date of purchase</div>
+                    <div class="col-4">Payment of Payments</div>
+                    <div class="col-4">Name</div>
+                </div>
+                <div class="row">
+                    <div class="col-4">{{ purchase.date.strftime("%d/%m/%Y") }}</div>
+                    <div class="col-4">{{ purchase.payment_number }}/{{ purchase.number_of_payments }}</div>
+                    <div class="col-4">{{ purchase.user.fname }}</div>
+                </div>
+            </div>
+        </div>
     </div>
 {% endfor %}
 <hr/>
