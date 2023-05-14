@@ -1,1 +1,1 @@
-log("Test")
+log("Test purchases")

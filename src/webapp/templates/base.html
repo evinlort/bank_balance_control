@@ -15,12 +15,12 @@
 
 {% include "menu/page_header_menu.html" %}
 
-<div class="content">
+<main class="content">
     <div class="page_body">
         {% block page_body %}{% endblock %}
     </div>
     <div class="push_footer_down"></div>
-</div>
+</main>
 
 {% include "footer/page_footer.html" %}
 {% include "footer/toast.html" %}
@@ -33,6 +33,7 @@
         crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 <script language="javascript" src="{{ url_for('static', filename='js/common_function.js') }}"></script>
+<script language="javascript" src="{{ url_for('static', filename='js/nav_menu.js') }}"></script>
 <script>
     jQuery(document).ready(function () {
         {% block javascript %}{% endblock %}
