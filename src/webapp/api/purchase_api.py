@@ -16,6 +16,13 @@ def get_all_purchases():
     return jsonify(purchases)
 
 
+@api.route('/purchases/user/<int:user_id>/date/month/<int:month>/year/<int:year>', methods=["GET"])
+def get_by_user_month_year(user_id: int, month: int, year: int):
+    purchs = Purchase(db)
+    purchases = purchs.get_by_userid_month_and_year(user_id=user_id, month=month, year=year)
+    return jsonify(purchases)
+
+
 @api.route("/purchase", methods=["POST"])
 def new_purchase():
     purchase_data = request.form.to_dict()

@@ -1,4 +1,3 @@
-import calendar
 import datetime
 
 from flask import render_template
@@ -12,8 +11,10 @@ from src.webapp.main import main
 
 
 @main.route('/purchases', methods=["GET"])
+@main.route('/purchases/user/<int:user_id>', methods=["GET"])
+@main.route('/purchases/user/<int:user_id>/month/<int:month>/year/<int:year>', methods=["GET"])
 @login_required
-def show_purchases():
+def show_purchases(user_id: int = None, month: int = None, year: int = None):
     purchase = Purchase(db)
     this_user = current_user.__dict__
 
@@ -22,11 +23,12 @@ def show_purchases():
         this_user["family_members"] = User(db).get_by_column("family_id", this_user["family_id"])
 
     current_date = datetime.datetime.now()
-    month = current_date.month
-    year = current_date.year
-    month_last_day = calendar.monthrange(year, month)[1]
+    if not month:
+        month = current_date.month
+    if not year:
+        year = current_date.year
 
-    purchases = purchase.get_by_month_and_year(month, year, month_last_day)
+    purchases = purchase.get_by_month_and_year(month, year, user_id=user_id)
     add_object_by_name(db, "means_of_payment", purchases)
     add_object_by_name(db, "category", purchases)
     add_object_by_name(db, "user", purchases)
@@ -37,6 +39,7 @@ def show_purchases():
     params = {
         "purchases": purchases,
         "month": month_name,
+        "month_number": month,
         "year": year,
         "current_user": this_user,
         "total_sum": "{:.2f}".format(round(sum([float(item["sum"][1:]) for item in purchases]), 2)),

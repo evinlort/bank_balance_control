@@ -20,8 +20,9 @@
 </div>
 
 <div class="row">
+    <div id="month_number" class="d-none">{{ params.month_number }}</div>
     <div class="col-3 col-lg-5 text-end" id="show_previous_month"><<</div>
-    <div class="col-6 col-lg-2">Month: <span class="bold">{{ params.month }} {{ params.year }}</span></div>
+    <div class="col-6 col-lg-2">Month: <span id="selected_month_year" class="bold">{{ params.month }} {{ params.year }}</span></div>
     <div class="col-3 col-lg-5 text-start" id="show_next_month">>></div>
 </div>
 
@@ -53,6 +54,7 @@
     </div>
 </div>
 <hr />
+<div id="purchases_container">
 {% for purchase in params["purchases"] %}
     <div id="parent-collapse-purchase-{{ loop.index }}" class="row {{ 'dashed_bottom' if loop.index != params['purchases']|length else '' }}" data-bs-toggle="collapse" href="#collapse-purchase-{{ loop.index }}" role="button" aria-expanded="false" aria-controls="collapsePurchases">
         <div class="col d-none d-sm-block">
@@ -79,7 +81,7 @@
         <div class="col d-none d-sm-block">
             {{ purchase.user.fname }}
         </div>
-
+        <div class="member_id d-none">{{ purchase.user_id }}</div>
     </div>
     <div class="d-block d-sm-none">
         <div class="collapse" id="collapse-purchase-{{ loop.index }}">
@@ -111,6 +113,7 @@
         </div>
     </div>
 {% endfor %}
+</div>
 <hr/>
 <div class="row">
     <div class="col">

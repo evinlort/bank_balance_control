@@ -1,3 +1,5 @@
+import calendar
+
 from psycopg2 import sql
 
 from src.helpers.calculation_helpers import calculate_monthly_sums, calculate_next_month_date
@@ -9,17 +11,44 @@ class Purchase(BaseModel):
     def get_table():
         return "purchases"
 
-    def get_by_month_and_year(self, month: int, year: int, month_last_day: int):
+    def get_by_month_and_year(self, month: int, year: int, user_id: int = None):
+        user = "" if not user_id else "AND user_id = %(user_id)s"
         query = sql.SQL(
             """
             SELECT * FROM {} 
             WHERE date >= '%(year)s-%(month)s-01' 
             AND date <= '%(year)s-%(month)s-%(month_last_day)s'
+            {}
+            ORDER BY date ASC
+            """.format(self.table, user)
+        )
+
+        month_last_day = calendar.monthrange(year, month)[1]
+        data = {"year": year, "month": month, "month_last_day": month_last_day, "user_id": user_id}
+        self.logger.debug(query)
+
+        self.logger.debug(self.db.cursor.mogrify(query, data))
+        self.db.cursor.execute(query, data)
+        self.db.connection.commit()
+        fetch = self.db.cursor.fetchall()
+        self.logger.debug(fetch)
+        if fetch is None:
+            return []
+        return self.convert(fetch)
+
+    def get_by_userid_month_and_year(self, user_id: int, month: int, year: int):
+        query = sql.SQL(
+            """
+            SELECT * FROM {} 
+            WHERE date >= '%(year)s-%(month)s-01' 
+            AND date <= '%(year)s-%(month)s-%(month_last_day)s'
+            AND user_id = %(user_id)s
             ORDER BY date ASC
             """.format(self.table)
         )
 
-        data = {"year": year, "month": month, "month_last_day": month_last_day}
+        month_last_day = calendar.monthrange(year, month)[1]
+        data = {"user_id": user_id, "year": year, "month": month, "month_last_day": month_last_day}
         self.logger.debug(query)
 
         self.logger.debug(self.db.cursor.mogrify(query, data))
